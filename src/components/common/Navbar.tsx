@@ -2,8 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Menu, X, Sparkles } from 'lucide-react';
+import { ArrowRight, Menu, X, Sparkles, ChevronRight } from 'lucide-react';
 import styles from './Navbar.module.css';
+
+const navLinks = [
+  { label: 'The Problem', href: '#act-1-chaos' },
+  { label: 'Auto-Matching', href: '#act-2-mapping' },
+  { label: 'Reconciliation', href: '#act-3-reconciliation' },
+  { label: 'Deployments', href: '#deployment-modes' },
+  { label: 'AI Agent', href: '#act-4-command' },
+  { label: 'Audit Trail', href: '#act-5-trust' },
+];
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,6 +30,10 @@ export const Navbar: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleLinkClick = () => {
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}>
@@ -42,28 +55,18 @@ export const Navbar: React.FC = () => {
 
           <nav>
             <ul className={styles.navLinks}>
-              <li className={styles.navItem}>
-                <a href="#the-problem">The Problem</a>
-              </li>
-              <li className={styles.navItem}>
-                <a href="#top-10-matching">Auto-Matching</a>
-              </li>
-              <li className={styles.navItem}>
-                <a href="#reconciliation">Reconciliation</a>
-              </li>
-              <li className={styles.navItem}>
-                <a href="#ai-agent">AI Agent</a>
-              </li>
-              <li className={styles.navItem}>
-                <a href="#audit-trust">Audit Trail</a>
-              </li>
+              {navLinks.map((link) => (
+                <li key={link.href} className={styles.navItem}>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
 
         {/* CTA Group */}
         <div className={styles.ctaGroup}>
-          <a href="#reconciliation" className={styles.secondaryBtn}>
+          <a href="#act-3-reconciliation" className={styles.secondaryBtn}>
             Live Proof
           </a>
           <a href="#book-demo" className={styles.primaryBtn}>
@@ -79,6 +82,29 @@ export const Navbar: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Mobile Drawer Menu */}
+      {mobileMenuOpen && (
+        <div className={styles.mobileDrawer}>
+          <ul className={styles.mobileNavList}>
+            {navLinks.map((link) => (
+              <li key={link.href} className={styles.mobileNavItem}>
+                <a href={link.href} onClick={handleLinkClick}>
+                  <span>{link.label}</span>
+                  <ChevronRight size={18} color="#FF5500" />
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className={styles.mobileDrawerFooter}>
+            <a href="#book-demo" className={styles.mobileDrawerCta} onClick={handleLinkClick}>
+              <span>Schedule Enterprise Walkthrough</span>
+              <ArrowRight size={17} />
+            </a>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
