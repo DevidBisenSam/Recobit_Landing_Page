@@ -4,55 +4,79 @@ import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import confetti from 'canvas-confetti';
-import { Sparkles, CheckCircle2, ShieldCheck, ArrowRight, Zap, Check, Eye, SlidersHorizontal } from 'lucide-react';
-import { storyContent } from '@/config/storyContent';
+import { Sparkles, CheckCircle2, ShieldCheck, ArrowRight, Zap, Check, Eye, SlidersHorizontal, Layers, Building2, Landmark } from 'lucide-react';
 import { mediaConfig } from '@/config/mediaConfig';
 import { ProductVideoFrame } from '@/components/common/ProductVideoFrame';
 import styles from './Act3ReconciliationTheatre.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const sampleMatches = [
+const segregationCategories = [
+  { id: 'matched', label: 'Matched', count: 262, status: '99% Auto-Aligned', color: '#10B981' },
+  { id: 'unmatched', label: 'Unmatched', count: 126, status: 'Needs Review', color: '#F59E0B' },
+  { id: 'missing_books', label: 'Missing in Books', count: 0, status: '0 Pending', color: '#64748B' },
+  { id: 'missing_stmt', label: 'Missing in Stmt', count: 5, status: 'In Transit', color: '#0284C7' },
+  { id: 'bank_charges', label: 'Bank Charges', count: 71, status: 'Auto-Grouped', color: '#8B5CF6' },
+];
+
+const sampleEntries = [
   {
-    bankDate: '2026-05-30',
-    bankNarr: 'RTGS MAHBR52026053024064075 COROMANDEL INTERNATION SBIN0004266',
-    bankAmount: '₹1,25,00,000.00',
-    erpDate: '2026-05-30',
-    erpNarr: 'BEING AMT ISSUE TOWARDS SUPPLY OF FERTI GAYU',
-    erpParty: 'Coromandel International Limited, Pune',
-    erpAmount: '₹1,25,00,000.00',
-    confidence: '99% MATCH',
-    matchedFields: 'Amount, Date, Narration',
+    id: 1,
+    category: 'matched',
+    tagText: '99% AUTO-ALIGNED MATCH',
+    tagClass: styles.tagMatched,
+    amount: '₹1,25,00,000.00',
+    bank: {
+      date: '30 May 2026',
+      narr: 'RTGS MAHBR52026053024064075 COROMANDEL INTERNATION SBIN0004266',
+      source: 'Bank of Maharashtra Statement',
+    },
+    erp: {
+      date: '30 May 2026',
+      party: 'Coromandel International Limited (Pune)',
+      ref: 'Vch BRN0426/2570 • Tally Prime',
+    },
   },
   {
-    bankDate: '2026-05-30',
-    bankNarr: 'RTGS MAHBR52026053024064369 DAFTARI AGRO PVT LTD PUNB0046700',
-    bankAmount: '₹41,00,000.00',
-    erpDate: '2026-05-30',
-    erpNarr: 'BEING AMT ISSUE TOWARDS SUPPLY OF SEED AGNST 8% CD GAYU',
-    erpParty: 'Daftari Agro Private Limited, Wardha',
-    erpAmount: '₹41,00,000.00',
-    confidence: '98% MATCH',
-    matchedFields: 'Amount, Date, Narration',
+    id: 2,
+    category: 'unmatched',
+    tagText: 'NARRATION MISMATCH CLUSTER',
+    tagClass: styles.tagMismatch,
+    amount: '₹41,00,000.00',
+    bank: {
+      date: '30 May 2026',
+      narr: 'RTGS MAHBR52026053024064369 DAFTARI AGRO PVT LTD',
+      source: 'Bank of Maharashtra Statement',
+    },
+    erp: {
+      date: '30 May 2026',
+      party: 'Daftari Agro Private Limited (Wardha)',
+      ref: 'Vch BRN0426/2571 • Tally Prime',
+    },
   },
   {
-    bankDate: '2026-05-30',
-    bankNarr: 'RTGS MAHBR52026053024072705 MAHINDRA AGRI SOLUTION HDFC0000007',
-    bankAmount: '₹31,50,000.00',
-    erpDate: '2026-05-30',
-    erpNarr: 'BEING AMT ISSUE TOWARDS SUPPLY OF SEED AGNST 8% CD GAYU',
-    erpParty: 'Mahindra Agri Solutions Limited, Mumbai',
-    erpAmount: '₹31,50,000.00',
-    confidence: '98% MATCH',
-    matchedFields: 'Amount, Date, Narration',
+    id: 3,
+    category: 'bank_charges',
+    tagText: 'AUTO-IDENTIFIED BANK CHARGES',
+    tagClass: styles.tagBankCharge,
+    amount: '₹590.00',
+    bank: {
+      date: '30 May 2026',
+      narr: 'CHG/MAHBR/RTGS CHARGES MAY 2026/GST 18%',
+      source: 'Bank of Maharashtra Statement',
+    },
+    erp: {
+      date: '30 May 2026',
+      party: 'Bank Charges & Commission A/C',
+      ref: 'Auto-Voucher Drafted',
+    },
   },
 ];
 
 export const Act3ReconciliationTheatre: React.FC = () => {
-  const { scene07Reconciliation } = storyContent;
   const { reconciliationVideo } = mediaConfig.videos;
-  const { reconciliationComparison, reconciliationCategories } = mediaConfig.images;
-  const [activeTab, setActiveTab] = useState('matched');
+  const { reconciliationComparison } = mediaConfig.images;
+  const [activeCategory, setActiveCategory] = useState('matched');
   const [bulkResolved, setBulkResolved] = useState(false);
   const [viewMode, setViewMode] = useState<'interactive' | 'realImage'>('interactive');
 
@@ -64,11 +88,11 @@ export const Act3ReconciliationTheatre: React.FC = () => {
       gsap.from(masterCardRef.current, {
         scrollTrigger: {
           trigger: masterCardRef.current,
-          start: 'top 75%',
+          start: 'top 80%',
         },
-        y: 40,
+        y: 35,
         opacity: 0,
-        duration: 0.9,
+        duration: 0.8,
         ease: 'power3.out',
       });
     }, sectionRef);
@@ -79,12 +103,16 @@ export const Act3ReconciliationTheatre: React.FC = () => {
   const handleBulkResolve = () => {
     setBulkResolved(true);
     confetti({
-      particleCount: 60,
-      spread: 60,
+      particleCount: 75,
+      spread: 70,
       origin: { y: 0.7 },
-      colors: ['#FF5500', '#10B981', '#0F172A'],
+      colors: ['#FF5500', '#10B981', '#0F172A', '#FFAA00'],
     });
   };
+
+  const filteredEntries = sampleEntries.filter((e) =>
+    activeCategory === 'matched' ? true : e.category === activeCategory
+  );
 
   return (
     <section id="act-3-reconciliation" ref={sectionRef} className={styles.sceneWrapper}>
@@ -93,23 +121,23 @@ export const Act3ReconciliationTheatre: React.FC = () => {
         <div className={styles.sceneHeader}>
           <div className={styles.actTag}>
             <Zap size={15} />
-            <span>ACT 3 / THE RECONCILIATION THEATRE</span>
+            <span>ACT 3 / THE RECONCILIATION ENGINE</span>
           </div>
           <h2 className={styles.title}>
-            Two worlds aligned: <span className="text-gradient-orange">Bank Statement vs ERP Books.</span>
+            Automatic Segregation. <span className="text-gradient-orange">Instant Bulk Resolution.</span>
           </h2>
           <p className={styles.body}>
-            Deterministic mathematical verification pairs with semantic AI to reconcile feeds at 98–99% confidence.
-            Users focus solely on exceptions and resolve clusters in bulk.
+            RecoBit automatically segregates thousands of lines into 5 distinct buckets. Your team focuses
+            exclusively on exceptions, resolving entire clusters in a single bulk action.
           </p>
         </div>
 
         {/* View Mode Toggle */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem', gap: '0.75rem' }}>
           <button
             onClick={() => setViewMode('interactive')}
             style={{
-              padding: '0.45rem 1rem',
+              padding: '0.4rem 0.95rem',
               borderRadius: '9999px',
               fontSize: '0.8125rem',
               fontWeight: 700,
@@ -125,12 +153,12 @@ export const Act3ReconciliationTheatre: React.FC = () => {
             }}
           >
             <SlidersHorizontal size={14} />
-            <span>Interactive Table View</span>
+            <span>Live Segregation Engine</span>
           </button>
           <button
             onClick={() => setViewMode('realImage')}
             style={{
-              padding: '0.45rem 1rem',
+              padding: '0.4rem 0.95rem',
               borderRadius: '9999px',
               fontSize: '0.8125rem',
               fontWeight: 700,
@@ -154,10 +182,10 @@ export const Act3ReconciliationTheatre: React.FC = () => {
         <div ref={masterCardRef} className={styles.masterCard}>
           <div className={styles.cardTopBar}>
             <div className={styles.accountTitle}>
-              BANK OF MAHARASHTRA CASH CREDIT A/C NO 60306318689
+              BANK OF MAHARASHTRA CASH CREDIT A/C • RECONCILIATION SESSION
             </div>
             <div className={styles.topPills}>
-              <span className={styles.feedPill}>Bank: 459</span>
+              <span className={styles.feedPill}>Statement: 459</span>
               <span className={styles.feedPill}>Books: 4,348</span>
               <div className={styles.reconPercent}>
                 {bulkResolved ? '100% Reconciled' : '56.5% Reconciled'}
@@ -174,10 +202,10 @@ export const Act3ReconciliationTheatre: React.FC = () => {
               />
               <div
                 style={{
-                  padding: '0.85rem 1.5rem',
+                  padding: '0.75rem 1.25rem',
                   background: '#F8FAFC',
                   borderTop: '1px solid #E2E8F0',
-                  fontSize: '0.8125rem',
+                  fontSize: '0.8rem',
                   color: '#475569',
                   display: 'flex',
                   justifyContent: 'space-between',
@@ -191,53 +219,55 @@ export const Act3ReconciliationTheatre: React.FC = () => {
             </div>
           ) : (
             <>
-              {/* Category Tabs */}
-              <div className={styles.categoryTabs}>
-                {scene07Reconciliation.categories.map((cat) => (
+              {/* 5 Segregation Pods */}
+              <div className={styles.segregationPodsTrack}>
+                {segregationCategories.map((cat) => (
                   <button
                     key={cat.id}
-                    className={`${styles.tabBtn} ${activeTab === cat.id ? styles.tabBtnActive : ''}`}
-                    onClick={() => setActiveTab(cat.id)}
+                    className={`${styles.podBtn} ${activeCategory === cat.id ? styles.podBtnActive : ''}`}
+                    onClick={() => setActiveCategory(cat.id)}
                   >
-                    <span>{cat.label}</span>
-                    <span className={styles.tabBadge}>{cat.count}</span>
+                    <span className={styles.podCount} style={{ color: activeCategory === cat.id ? '#FF5500' : undefined }}>
+                      {cat.count}
+                    </span>
+                    <span className={styles.podLabel}>{cat.label}</span>
+                    <span className={styles.podStatus}>{cat.status}</span>
                   </button>
                 ))}
               </div>
 
-              {/* Side by Side Matches */}
-              <div>
-                {sampleMatches.map((row, idx) => (
-                  <div key={idx} className={styles.matchRow}>
-                    {/* Left: Bank Statement Feed */}
-                    <div className={styles.sideBox}>
-                      <span className={styles.sideLabel}>Bank Statement (Source Feed)</span>
-                      <span className={styles.sideDate}>{row.bankDate}</span>
-                      <span className={styles.sideNarr}>{row.bankNarr}</span>
-                      <span className={styles.sideAmt}>{row.bankAmount}</span>
-                      <div className={styles.confidenceTag}>
+              {/* Segregated Comparison Entries List */}
+              <div className={styles.entriesList}>
+                {filteredEntries.map((entry) => (
+                  <div key={entry.id} className={styles.entryCard}>
+                    <div className={styles.entryHeader}>
+                      <span className={`${styles.categoryTag} ${entry.tagClass}`}>
                         <Sparkles size={12} />
-                        <span>{row.confidence} ({row.matchedFields})</span>
-                      </div>
-                    </div>
-
-                    {/* Right: ERP General Ledger */}
-                    <div className={styles.sideBox}>
-                      <span className={styles.sideLabel}>Accounting Books (ERP Voucher)</span>
-                      <span className={styles.sideDate}>{row.erpDate}</span>
-                      <span className={styles.sideNarr}>{row.erpNarr}</span>
-                      <span style={{ fontSize: '0.8rem', color: '#475569', fontWeight: 600 }}>
-                        {row.erpParty}
+                        <span>{entry.tagText}</span>
                       </span>
-                      <span className={styles.sideAmt}>{row.erpAmount}</span>
+                      <span className={styles.amountDisplay}>{entry.amount}</span>
                     </div>
 
-                    {/* Action */}
-                    <div className={styles.actionCol}>
-                      <button className={styles.resolveBtn}>
-                        <CheckCircle2 size={14} />
-                        <span>MARK RESOLVED</span>
-                      </button>
+                    <div className={styles.twoSidesGrid}>
+                      {/* Left: Bank Side */}
+                      <div className={styles.sidePanel}>
+                        <div className={styles.sideType}>
+                          <Landmark size={13} color="#FF5500" />
+                          <span>Bank Statement Line</span>
+                        </div>
+                        <div className={styles.sideMain}>{entry.bank.narr}</div>
+                        <div className={styles.sideSub}>{entry.bank.date} • {entry.bank.source}</div>
+                      </div>
+
+                      {/* Right: ERP Side */}
+                      <div className={styles.sidePanel}>
+                        <div className={styles.sideType}>
+                          <Building2 size={13} color="#10B981" />
+                          <span>ERP General Ledger Match</span>
+                        </div>
+                        <div className={styles.sideMain}>{entry.erp.party}</div>
+                        <div className={styles.sideSub}>{entry.erp.date} • {entry.erp.ref}</div>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -248,19 +278,21 @@ export const Act3ReconciliationTheatre: React.FC = () => {
                 <div className={styles.triageLeft}>
                   <ShieldCheck size={18} color="#10B981" />
                   <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#0F172A' }}>
-                    Exception Clusters: 96 Narration Mismatches identified
+                    {bulkResolved
+                      ? 'All 96 Mismatches Resolved & Synchronized to Tally Prime'
+                      : 'Exception Group: 96 Narration Mismatches identified'}
                   </span>
                 </div>
 
                 {bulkResolved ? (
                   <div className={styles.pushedStatus}>
                     <Check size={15} />
-                    <span>All 96 Mismatches Resolved & Pushed to ERP (Vch BRN0426/2578)</span>
+                    <span>Pushed to ERP (Voucher Ref: BRN0426/2578)</span>
                   </div>
                 ) : (
                   <button className={styles.bulkResolveBtn} onClick={handleBulkResolve}>
                     <Sparkles size={15} />
-                    <span>1-Click Bulk Resolve (96 records)</span>
+                    <span>1-Tap Bulk Resolve (96 records)</span>
                     <ArrowRight size={15} />
                   </button>
                 )}

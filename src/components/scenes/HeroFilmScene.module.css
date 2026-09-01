@@ -1,12 +1,12 @@
 .heroSection {
   position: relative;
-  min-height: 100vh;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: calc(84px + clamp(2rem, 5vw, 4.5rem));
-  padding-bottom: clamp(4rem, 8vw, 6.5rem);
+  padding-top: calc(70px + clamp(1.5rem, 3.5vw, 3rem));
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
   overflow: hidden;
   z-index: 1;
 }
