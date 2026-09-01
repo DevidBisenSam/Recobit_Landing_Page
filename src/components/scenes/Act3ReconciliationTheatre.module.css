@@ -1,0 +1,293 @@
+.sceneWrapper {
+  position: relative;
+  width: 100%;
+  padding: clamp(5rem, 8vw, 8.5rem) 0;
+  z-index: 1;
+}
+
+.sceneHeader {
+  text-align: center;
+  max-width: 920px;
+  margin: 0 auto clamp(2.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.actTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(2.2rem, 4vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: var(--slate-950);
+}
+
+.body {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--slate-600);
+}
+
+/* Master Reconciliation Card */
+.masterCard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  margin-bottom: 3.5rem;
+}
+
+.cardTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.75rem;
+  background: #0F172A;
+  color: #FFFFFF;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.accountTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.topPills {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.feedPill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-xs);
+  color: var(--slate-300);
+}
+
+.reconPercent {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--brand-orange);
+}
+
+/* Category Tabs */
+.categoryTabs {
+  display: flex;
+  overflow-x: auto;
+  padding: 0.75rem 1.5rem;
+  background: #F8FAFC;
+  border-bottom: 1px solid var(--border-light);
+  gap: 0.75rem;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--slate-600);
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.tabBtn:hover {
+  border-color: var(--slate-400);
+  color: var(--slate-900);
+}
+
+.tabBtnActive {
+  background: var(--brand-orange-light);
+  border-color: var(--border-orange);
+  color: var(--brand-orange);
+}
+
+.tabBadge {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-full);
+  background: var(--slate-200);
+  color: var(--slate-700);
+}
+
+.tabBtnActive .tabBadge {
+  background: var(--brand-orange);
+  color: #FFFFFF;
+}
+
+/* Side by Side Rows */
+.matchRow {
+  padding: 1.35rem 1.75rem;
+  border-bottom: 1px solid var(--border-light);
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 0.6fr;
+  gap: 1.5rem;
+  align-items: center;
+  transition: background-color var(--transition-fast);
+}
+
+.matchRow:hover {
+  background-color: #FCFDFE;
+}
+
+.sideBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sideLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--slate-400);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sideDate {
+  font-size: 0.75rem;
+  color: var(--slate-500);
+  font-family: var(--font-mono);
+}
+
+.sideNarr {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--slate-900);
+  line-height: 1.35;
+}
+
+.sideAmt {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--slate-950);
+}
+
+.confidenceTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #065F46;
+  background: #D1FAE5;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-xs);
+  margin-top: 0.2rem;
+  width: fit-content;
+}
+
+.actionCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.resolveBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  background: #059669;
+  color: #FFFFFF;
+  transition: all var(--transition-fast);
+}
+
+.resolveBtn:hover {
+  background: #047857;
+  transform: translateY(-1px);
+}
+
+/* Bulk Triage & ERP Push Bar */
+.triageBar {
+  padding: 1.25rem 1.75rem;
+  background: #F8FAFC;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.triageLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bulkResolveBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-sm);
+  background: var(--brand-orange-gradient);
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(255, 85, 0, 0.25);
+  transition: all var(--transition-fast);
+}
+
+.bulkResolveBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255, 85, 0, 0.4);
+}
+
+.pushedStatus {
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  color: #065F46;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.videoContainer {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .matchRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .actionCol {
+    align-items: flex-start;
+  }
+}

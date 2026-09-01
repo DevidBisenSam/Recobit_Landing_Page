@@ -1,0 +1,159 @@
+.sceneWrapper {
+  position: relative;
+  width: 100%;
+  padding: clamp(5rem, 8vw, 8rem) 0;
+  background-color: #F8FAFC;
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  overflow: hidden;
+}
+
+.sceneLayout {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.narrativeCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tag {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(2rem, 3.2vw, 2.85rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--slate-950);
+}
+
+.body {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--slate-600);
+}
+
+.workflowBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #1E40AF;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Bulk Triage Card */
+.bulkCard {
+  background: #FFFFFF;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-xl);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.bulkHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.bulkTitle {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--slate-900);
+}
+
+.groupList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.groupItem {
+  padding: 1.15rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  background: #FAFAFA;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all var(--transition-fast);
+}
+
+.groupItem:hover {
+  background: #FFFFFF;
+  border-color: var(--brand-orange);
+  box-shadow: var(--shadow-sm);
+}
+
+.groupInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.groupName {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--slate-900);
+}
+
+.groupCount {
+  font-size: 0.8rem;
+  color: var(--slate-500);
+}
+
+.bulkActionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--radius-sm);
+  background: var(--brand-orange-gradient);
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  transition: transform var(--transition-fast);
+}
+
+.bulkActionBtn:hover {
+  transform: translateY(-1px);
+}
+
+.resolvedState {
+  background: #ECFDF5;
+  border-color: #A7F3D0;
+  color: #065F46;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+@media (max-width: 860px) {
+  .sceneLayout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,269 @@
+.sceneWrapper {
+  position: relative;
+  width: 100%;
+  padding: clamp(5rem, 8vw, 8.5rem) 0;
+  z-index: 1;
+}
+
+.sceneHeader {
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto clamp(2.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.actTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: var(--slate-950);
+}
+
+.body {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--slate-600);
+}
+
+.interactiveGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-bottom: 3.5rem;
+}
+
+/* Smart Batch Mapper Card */
+.mapperCard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 85, 0, 0.25);
+  box-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.08), 0 0 30px rgba(255, 85, 0, 0.1);
+  overflow: hidden;
+}
+
+.mapperHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: #F8FAFC;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.fileBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--slate-800);
+  font-family: var(--font-mono);
+}
+
+.progressTag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #065F46;
+  background: #D1FAE5;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+.activeTxnSection {
+  padding: 1.25rem 1.5rem;
+  background: #FCFDFE;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.txnMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--slate-500);
+  font-weight: 600;
+}
+
+.txnNarrationBox {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--slate-950);
+  padding: 0.75rem 1rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.amountTag {
+  color: var(--brand-orange);
+  font-weight: 800;
+}
+
+.suggestionsSection {
+  padding: 1.25rem 1.5rem;
+}
+
+.suggestionsTitle {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--slate-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.picksList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.pickItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  background: #FAFAFA;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pickItem:hover, .pickItemActive {
+  background: #FFF7ED;
+  border-color: var(--brand-orange);
+  box-shadow: 0 4px 14px rgba(255, 85, 0, 0.15);
+  transform: translateX(4px);
+}
+
+.pickLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rankBadge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--slate-200);
+  color: var(--slate-800);
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pickItemActive .rankBadge {
+  background: var(--brand-orange);
+  color: #FFFFFF;
+}
+
+.pickDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.pickName {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--slate-900);
+}
+
+.pickReason {
+  font-size: 0.75rem;
+  color: var(--slate-500);
+}
+
+.confidenceBadge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #065F46;
+  background: #D1FAE5;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+}
+
+/* Feature Explainer Column */
+.explainerCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.explainerCard {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.explainerIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-orange-light);
+  color: var(--brand-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.explainerTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--slate-950);
+}
+
+.explainerDesc {
+  font-size: 0.875rem;
+  color: var(--slate-600);
+  line-height: 1.5;
+}
+
+.videoSection {
+  width: 100%;
+}
+
+@media (max-width: 960px) {
+  .interactiveGrid {
+    grid-template-columns: 1fr;
+  }
+}

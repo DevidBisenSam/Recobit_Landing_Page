@@ -1,0 +1,196 @@
+.sceneWrapper {
+  position: relative;
+  width: 100%;
+  padding: clamp(5rem, 8vw, 8rem) 0;
+  background-color: #F8FAFC;
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  overflow: hidden;
+}
+
+.sceneLayout {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.narrativeCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tag {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(2rem, 3.2vw, 2.85rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--slate-950);
+}
+
+.body {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--slate-600);
+}
+
+.rolesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.roleCard {
+  padding: 1rem 1.25rem;
+  background: #FFFFFF;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.roleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.roleTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--slate-900);
+}
+
+.roleBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  background: var(--brand-orange-light);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+}
+
+.roleDesc {
+  font-size: 0.8125rem;
+  color: var(--slate-500);
+}
+
+/* Directory Table Mock */
+.directoryCard {
+  background: #FFFFFF;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+}
+
+.dirHeader {
+  padding: 1.25rem 1.5rem;
+  background: #0F172A;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dirTitle {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.dirStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: #F8FAFC;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.statBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.statNum {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--slate-900);
+}
+
+.statLbl {
+  font-size: 0.75rem;
+  color: var(--slate-500);
+}
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.userTable th {
+  padding: 0.75rem 1.25rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--slate-400);
+  background: #FAFAFA;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.userTable td {
+  padding: 1rem 1.25rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--slate-700);
+}
+
+.userNameCol {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.userAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #FFE4E6;
+  color: #BE123C;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statusPillActive {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #065F46;
+  background: #D1FAE5;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+@media (max-width: 860px) {
+  .sceneLayout {
+    grid-template-columns: 1fr;
+  }
+}
