@@ -3,8 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Sparkles, Zap, Target, Layers, ArrowRight, CheckCircle2, ShieldCheck, HelpCircle, Bot } from 'lucide-react';
-import { RobotAssistant3D } from '@/components/3d/RobotAssistant3D';
+import { Sparkles, Zap, Target, Layers, ArrowRight, CheckCircle2, ShieldCheck, Cpu, Brain, Check } from 'lucide-react';
 import styles from './Act2Top10Mapper.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -17,29 +16,30 @@ const topPicksDemo = [
 
 export const Act2Top10Mapper: React.FC = () => {
   const [selectedPick, setSelectedPick] = useState(0);
+  const [confirmed, setConfirmed] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const robotRef = useRef<HTMLDivElement>(null);
+  const explainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(robotRef.current, {
+      gsap.from(cardRef.current, {
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: cardRef.current,
           start: 'top 80%',
         },
-        x: -35,
+        y: 35,
         opacity: 0,
         duration: 0.8,
         ease: 'power3.out',
       });
 
-      gsap.from(cardRef.current, {
+      gsap.from(explainerRef.current, {
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: explainerRef.current,
           start: 'top 80%',
         },
-        x: 35,
+        y: 35,
         opacity: 0,
         duration: 0.8,
         delay: 0.15,
@@ -49,6 +49,11 @@ export const Act2Top10Mapper: React.FC = () => {
 
     return () => ctx.revert();
   }, []);
+
+  const handlePickSelect = (idx: number) => {
+    setSelectedPick(idx);
+    setConfirmed(true);
+  };
 
   return (
     <section id="act-2-mapping" ref={sectionRef} className={styles.sceneWrapper}>
@@ -68,76 +73,9 @@ export const Act2Top10Mapper: React.FC = () => {
           </p>
         </div>
 
-        {/* 2-Column 3D Robot Assistant + Intelligent Card Grid */}
+        {/* 2-Column Luxury Interface Grid */}
         <div className={styles.interactiveGrid}>
-          {/* Left: 3D AI Robot Assistant Targeting the Problem */}
-          <div
-            ref={robotRef}
-            style={{
-              background: 'linear-gradient(145deg, #0B0F17 0%, #111827 100%)',
-              borderRadius: 'var(--radius-xl)',
-              border: '1px solid rgba(255, 85, 0, 0.3)',
-              boxShadow: '0 25px 55px -12px rgba(0, 0, 0, 0.3), 0 0 35px rgba(255, 85, 0, 0.15)',
-              overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              position: 'relative',
-            }}
-          >
-            <div
-              style={{
-                padding: '1rem 1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                color: '#FFFFFF',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Bot size={16} color="#00F0FF" />
-                <span style={{ fontSize: '0.8125rem', fontWeight: 700, letterSpacing: '0.04em' }}>
-                  RECOBIT CO-PILOT AGENT
-                </span>
-              </div>
-              <span
-                style={{
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
-                  color: '#10B981',
-                  background: 'rgba(16, 185, 129, 0.15)',
-                  padding: '0.2rem 0.6rem',
-                  borderRadius: '9999px',
-                }}
-              >
-                INTERACTIVE 3D
-              </span>
-            </div>
-
-            {/* 3D Robot Model Canvas */}
-            <RobotAssistant3D />
-
-            <div
-              style={{
-                padding: '1rem 1.5rem',
-                background: '#070B13',
-                borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-                fontSize: '0.8125rem',
-                color: '#94A3B8',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '0.5rem',
-              }}
-            >
-              <span>Automated Semantic Narration Parsing</span>
-              <span style={{ color: '#FF7A33', fontWeight: 700 }}>99% Accuracy Rationale</span>
-            </div>
-          </div>
-
-          {/* Right: Smart Batch Mapper Concept Card */}
+          {/* Left: Interactive AI Narration Decomposer */}
           <div ref={cardRef} className={styles.mapperCard}>
             <div className={styles.mapperHeader}>
               <div className={styles.fileBadge}>
@@ -149,19 +87,25 @@ export const Act2Top10Mapper: React.FC = () => {
 
             <div className={styles.activeTxnSection}>
               <div className={styles.txnMeta}>
-                <span>INCOMING RAW BANK LINE</span>
-                <span>MATCH CONFIDENCE: 99%</span>
+                <span>RAW INCOMING BANK LINE</span>
+                <span>EXTRACTION CONFIDENCE: 99%</span>
               </div>
               <div className={styles.txnNarrationBox}>
                 <span>UPI/394805395421/HDFC/SHREE COLLECTION/Cs</span>
                 <span className={styles.amountTag}>₹20,000.00 CR</span>
               </div>
+              <div className={styles.tokensRow}>
+                <span className={styles.tokenChip}>Channel: UPI</span>
+                <span className={styles.tokenChip}>Ref: 394805395421</span>
+                <span className={styles.tokenChip}>Bank: HDFC</span>
+                <span className={`${styles.tokenChip} ${styles.tokenChipActive}`}>Counterparty: SHREE COLLECTION</span>
+              </div>
             </div>
 
             <div className={styles.suggestionsSection}>
               <div className={styles.suggestionsTitle}>
-                <span>Top 10 Ranked Ledger Suggestions</span>
-                <span style={{ color: '#FF5500' }}>1-Click Confirm</span>
+                <span>Top Ranked Ledger Accounts</span>
+                <span style={{ color: '#FF5500', fontWeight: 700 }}>1-Click Confirm</span>
               </div>
 
               <ul className={styles.picksList}>
@@ -169,10 +113,12 @@ export const Act2Top10Mapper: React.FC = () => {
                   <li
                     key={idx}
                     className={`${styles.pickItem} ${selectedPick === idx ? styles.pickItemActive : ''}`}
-                    onClick={() => setSelectedPick(idx)}
+                    onClick={() => handlePickSelect(idx)}
                   >
                     <div className={styles.pickLeft}>
-                      <div className={styles.rankBadge}>{pick.rank}</div>
+                      <div className={styles.rankBadge}>
+                        {selectedPick === idx && confirmed ? <Check size={12} /> : pick.rank}
+                      </div>
                       <div className={styles.pickDetails}>
                         <span className={styles.pickName}>{pick.name}</span>
                         <span className={styles.pickReason}>{pick.reason}</span>
@@ -182,6 +128,59 @@ export const Act2Top10Mapper: React.FC = () => {
                   </li>
                 ))}
               </ul>
+            </div>
+          </div>
+
+          {/* Right: How RecoBit Works (Curiosity & Architectural Value) */}
+          <div ref={explainerRef} className={styles.explainerCol}>
+            <div className={styles.explainerCard}>
+              <div className={styles.explainerHeader}>
+                <div className={styles.explainerIcon}>
+                  <Brain size={18} />
+                </div>
+                <h3 className={styles.explainerTitle}>Zero Static Keyword Rules</h3>
+              </div>
+              <p className={styles.explainerDesc}>
+                Traditional regex and keyword rules break whenever a bank updates their narration structure.
+                RecoBit dynamically isolates counterparties, tax tags, and reference IDs.
+              </p>
+            </div>
+
+            <div className={styles.explainerCard}>
+              <div className={styles.explainerHeader}>
+                <div className={styles.explainerIcon}>
+                  <Target size={18} />
+                </div>
+                <h3 className={styles.explainerTitle}>Ranked 1-to-10 Decision Matrix</h3>
+              </div>
+              <p className={styles.explainerDesc}>
+                Instead of searching through thousands of accounts in a dropdown, your team is presented
+                with the highest-confidence ledger picks ordered by relevance.
+              </p>
+            </div>
+
+            <div className={styles.explainerCard}>
+              <div className={styles.explainerHeader}>
+                <div className={styles.explainerIcon}>
+                  <ShieldCheck size={18} />
+                </div>
+                <h3 className={styles.explainerTitle}>Continuous Financial Memory</h3>
+              </div>
+              <p className={styles.explainerDesc}>
+                Confirmed matches reinforce organizational pattern memory across multiple branches and bank
+                accounts with full Maker-Checker audit control.
+              </p>
+            </div>
+
+            <div className={styles.statsBanner}>
+              <div className={styles.statItem}>
+                <span className={styles.statVal}>3,000+</span>
+                <span className={styles.statLbl}>Ledgers Filtered Instantly</span>
+              </div>
+              <div className={styles.statItem}>
+                <span className={styles.statVal}>85–95%</span>
+                <span className={styles.statLbl}>Time Reduction per Session</span>
+              </div>
             </div>
           </div>
         </div>
