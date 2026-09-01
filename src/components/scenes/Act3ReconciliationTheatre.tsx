@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import confetti from 'canvas-confetti';
-import { Sparkles, CheckCircle2, ShieldCheck, ArrowRight, Zap, Check } from 'lucide-react';
+import { Sparkles, CheckCircle2, ShieldCheck, ArrowRight, Zap, Check, Eye, SlidersHorizontal } from 'lucide-react';
 import { storyContent } from '@/config/storyContent';
 import { mediaConfig } from '@/config/mediaConfig';
 import { ProductVideoFrame } from '@/components/common/ProductVideoFrame';
@@ -51,8 +51,10 @@ const sampleMatches = [
 export const Act3ReconciliationTheatre: React.FC = () => {
   const { scene07Reconciliation } = storyContent;
   const { reconciliationVideo } = mediaConfig.videos;
+  const { reconciliationComparison, reconciliationCategories } = mediaConfig.images;
   const [activeTab, setActiveTab] = useState('matched');
   const [bulkResolved, setBulkResolved] = useState(false);
+  const [viewMode, setViewMode] = useState<'interactive' | 'realImage'>('interactive');
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const masterCardRef = useRef<HTMLDivElement>(null);
@@ -102,6 +104,52 @@ export const Act3ReconciliationTheatre: React.FC = () => {
           </p>
         </div>
 
+        {/* View Mode Toggle */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem', gap: '0.75rem' }}>
+          <button
+            onClick={() => setViewMode('interactive')}
+            style={{
+              padding: '0.45rem 1rem',
+              borderRadius: '9999px',
+              fontSize: '0.8125rem',
+              fontWeight: 700,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              background: viewMode === 'interactive' ? '#FF5500' : '#FFFFFF',
+              color: viewMode === 'interactive' ? '#FFFFFF' : '#334155',
+              border: '1px solid',
+              borderColor: viewMode === 'interactive' ? '#FF5500' : '#E2E8F0',
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            }}
+          >
+            <SlidersHorizontal size={14} />
+            <span>Interactive Table View</span>
+          </button>
+          <button
+            onClick={() => setViewMode('realImage')}
+            style={{
+              padding: '0.45rem 1rem',
+              borderRadius: '9999px',
+              fontSize: '0.8125rem',
+              fontWeight: 700,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              background: viewMode === 'realImage' ? '#FF5500' : '#FFFFFF',
+              color: viewMode === 'realImage' ? '#FFFFFF' : '#334155',
+              border: '1px solid',
+              borderColor: viewMode === 'realImage' ? '#FF5500' : '#E2E8F0',
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            }}
+          >
+            <Eye size={14} />
+            <span>Real Software UI Capture</span>
+          </button>
+        </div>
+
         {/* Master Reconciliation Theatre Card */}
         <div ref={masterCardRef} className={styles.masterCard}>
           <div className={styles.cardTopBar}>
@@ -117,80 +165,108 @@ export const Act3ReconciliationTheatre: React.FC = () => {
             </div>
           </div>
 
-          {/* Category Tabs */}
-          <div className={styles.categoryTabs}>
-            {scene07Reconciliation.categories.map((cat) => (
-              <button
-                key={cat.id}
-                className={`${styles.tabBtn} ${activeTab === cat.id ? styles.tabBtnActive : ''}`}
-                onClick={() => setActiveTab(cat.id)}
+          {viewMode === 'realImage' ? (
+            <div style={{ position: 'relative', width: '100%', background: '#0B0F17' }}>
+              <img
+                src={reconciliationComparison}
+                alt="Real RecoBit Reconciliation Engine UI"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+              <div
+                style={{
+                  padding: '0.85rem 1.5rem',
+                  background: '#F8FAFC',
+                  borderTop: '1px solid #E2E8F0',
+                  fontSize: '0.8125rem',
+                  color: '#475569',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '0.5rem',
+                }}
               >
-                <span>{cat.label}</span>
-                <span className={styles.tabBadge}>{cat.count}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Side by Side Matches */}
-          <div>
-            {sampleMatches.map((row, idx) => (
-              <div key={idx} className={styles.matchRow}>
-                {/* Left: Bank Statement Feed */}
-                <div className={styles.sideBox}>
-                  <span className={styles.sideLabel}>Bank Statement (Source Feed)</span>
-                  <span className={styles.sideDate}>{row.bankDate}</span>
-                  <span className={styles.sideNarr}>{row.bankNarr}</span>
-                  <span className={styles.sideAmt}>{row.bankAmount}</span>
-                  <div className={styles.confidenceTag}>
-                    <Sparkles size={12} />
-                    <span>{row.confidence} ({row.matchedFields})</span>
-                  </div>
-                </div>
-
-                {/* Right: ERP General Ledger */}
-                <div className={styles.sideBox}>
-                  <span className={styles.sideLabel}>Accounting Books (ERP Voucher)</span>
-                  <span className={styles.sideDate}>{row.erpDate}</span>
-                  <span className={styles.sideNarr}>{row.erpNarr}</span>
-                  <span style={{ fontSize: '0.8rem', color: '#475569', fontWeight: 600 }}>
-                    {row.erpParty}
-                  </span>
-                  <span className={styles.sideAmt}>{row.erpAmount}</span>
-                </div>
-
-                {/* Action */}
-                <div className={styles.actionCol}>
-                  <button className={styles.resolveBtn}>
-                    <CheckCircle2 size={14} />
-                    <span>MARK RESOLVED</span>
-                  </button>
-                </div>
+                <span>Live Software Capture: Bank Statement vs ERP Books Side-by-Side Verification</span>
+                <span style={{ color: '#059669', fontWeight: 700 }}>AI Match Confidence: 99% Verified</span>
               </div>
-            ))}
-          </div>
-
-          {/* Bottom Interactive Bulk Action & ERP Sync Bar */}
-          <div className={styles.triageBar}>
-            <div className={styles.triageLeft}>
-              <ShieldCheck size={18} color="#10B981" />
-              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#0F172A' }}>
-                Exception Clusters: 96 Narration Mismatches identified
-              </span>
             </div>
-
-            {bulkResolved ? (
-              <div className={styles.pushedStatus}>
-                <Check size={15} />
-                <span>All 96 Mismatches Resolved & Pushed to ERP (Vch BRN0426/2578)</span>
+          ) : (
+            <>
+              {/* Category Tabs */}
+              <div className={styles.categoryTabs}>
+                {scene07Reconciliation.categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    className={`${styles.tabBtn} ${activeTab === cat.id ? styles.tabBtnActive : ''}`}
+                    onClick={() => setActiveTab(cat.id)}
+                  >
+                    <span>{cat.label}</span>
+                    <span className={styles.tabBadge}>{cat.count}</span>
+                  </button>
+                ))}
               </div>
-            ) : (
-              <button className={styles.bulkResolveBtn} onClick={handleBulkResolve}>
-                <Sparkles size={15} />
-                <span>1-Click Bulk Resolve (96 records)</span>
-                <ArrowRight size={15} />
-              </button>
-            )}
-          </div>
+
+              {/* Side by Side Matches */}
+              <div>
+                {sampleMatches.map((row, idx) => (
+                  <div key={idx} className={styles.matchRow}>
+                    {/* Left: Bank Statement Feed */}
+                    <div className={styles.sideBox}>
+                      <span className={styles.sideLabel}>Bank Statement (Source Feed)</span>
+                      <span className={styles.sideDate}>{row.bankDate}</span>
+                      <span className={styles.sideNarr}>{row.bankNarr}</span>
+                      <span className={styles.sideAmt}>{row.bankAmount}</span>
+                      <div className={styles.confidenceTag}>
+                        <Sparkles size={12} />
+                        <span>{row.confidence} ({row.matchedFields})</span>
+                      </div>
+                    </div>
+
+                    {/* Right: ERP General Ledger */}
+                    <div className={styles.sideBox}>
+                      <span className={styles.sideLabel}>Accounting Books (ERP Voucher)</span>
+                      <span className={styles.sideDate}>{row.erpDate}</span>
+                      <span className={styles.sideNarr}>{row.erpNarr}</span>
+                      <span style={{ fontSize: '0.8rem', color: '#475569', fontWeight: 600 }}>
+                        {row.erpParty}
+                      </span>
+                      <span className={styles.sideAmt}>{row.erpAmount}</span>
+                    </div>
+
+                    {/* Action */}
+                    <div className={styles.actionCol}>
+                      <button className={styles.resolveBtn}>
+                        <CheckCircle2 size={14} />
+                        <span>MARK RESOLVED</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Interactive Bulk Action & ERP Sync Bar */}
+              <div className={styles.triageBar}>
+                <div className={styles.triageLeft}>
+                  <ShieldCheck size={18} color="#10B981" />
+                  <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#0F172A' }}>
+                    Exception Clusters: 96 Narration Mismatches identified
+                  </span>
+                </div>
+
+                {bulkResolved ? (
+                  <div className={styles.pushedStatus}>
+                    <Check size={15} />
+                    <span>All 96 Mismatches Resolved & Pushed to ERP (Vch BRN0426/2578)</span>
+                  </div>
+                ) : (
+                  <button className={styles.bulkResolveBtn} onClick={handleBulkResolve}>
+                    <Sparkles size={15} />
+                    <span>1-Click Bulk Resolve (96 records)</span>
+                    <ArrowRight size={15} />
+                  </button>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Marquee Real Product Video Proof */}

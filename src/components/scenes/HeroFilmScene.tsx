@@ -1,13 +1,17 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
-import { ArrowRight, ChevronDown, Sparkles, CheckCircle2, Shield, Activity } from 'lucide-react';
+import { ArrowRight, ChevronDown, Sparkles, Eye, SlidersHorizontal } from 'lucide-react';
 import { storyContent } from '@/config/storyContent';
+import { mediaConfig } from '@/config/mediaConfig';
 import styles from './HeroFilmScene.module.css';
 
 export const HeroFilmScene: React.FC = () => {
   const { hero } = storyContent;
+  const { inboundStream } = mediaConfig.images;
+  const [heroView, setHeroView] = useState<'interactive' | 'realStream'>('interactive');
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subheadlineRef = useRef<HTMLParagraphElement>(null);
@@ -99,21 +103,51 @@ export const HeroFilmScene: React.FC = () => {
                 </div>
                 <span className={styles.cardHeaderTitle}>Inbound Statement Pipeline</span>
               </div>
-              <span className={styles.cardHeaderBadge}>AUTO-INGESTION PROTOCOL ACTIVE</span>
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <button
+                  onClick={() => setHeroView(heroView === 'interactive' ? 'realStream' : 'interactive')}
+                  style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    color: '#FF5500',
+                    background: 'rgba(255,85,0,0.1)',
+                    border: '1px solid rgba(255,85,0,0.3)',
+                    padding: '0.2rem 0.65rem',
+                    borderRadius: '9999px',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                  }}
+                >
+                  {heroView === 'interactive' ? <Eye size={12} /> : <SlidersHorizontal size={12} />}
+                  <span>{heroView === 'interactive' ? 'View Real Inbound Capture' : 'Interactive View'}</span>
+                </button>
+              </div>
             </div>
 
-            <div className={styles.incomingTxnDisplay}>
-              <div className={styles.txnMetaRow}>
-                <span>LIVE RAW VOUCHER INTAKE</span>
-                <span>STATUS: UNMAPPED SEARCH REQUIRED</span>
+            {heroView === 'realStream' ? (
+              <div style={{ background: '#0F172A', overflow: 'hidden' }}>
+                <img
+                  src={inboundStream}
+                  alt="Real RecoBit Live Inbound Transaction Stream"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
               </div>
-              <div className={styles.txnBox}>
-                <span className={styles.txnNarrationText}>
-                  UPI/394805395421/HDFC/SHREE COLLECTION/Cs
-                </span>
-                <span className={styles.txnAmountText}>₹20,000.00 CR</span>
+            ) : (
+              <div className={styles.incomingTxnDisplay}>
+                <div className={styles.txnMetaRow}>
+                  <span>LIVE RAW VOUCHER INTAKE</span>
+                  <span>STATUS: UNMAPPED SEARCH REQUIRED</span>
+                </div>
+                <div className={styles.txnBox}>
+                  <span className={styles.txnNarrationText}>
+                    UPI/394805395421/HDFC/SHREE COLLECTION/Cs
+                  </span>
+                  <span className={styles.txnAmountText}>₹20,000.00 CR</span>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className={styles.cardFooterStats}>
               <div className={styles.statCell}>
