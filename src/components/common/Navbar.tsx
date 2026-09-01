@@ -46,13 +46,8 @@ export const Navbar: React.FC = () => {
           </span>
         </Link>
 
-        {/* Center Links & Status */}
+        {/* Center Links */}
         <div className={styles.centerNav}>
-          <div className={styles.statusIndicator}>
-            <div className={styles.pulseDot} />
-            <span>AI MATCHING ACTIVE</span>
-          </div>
-
           <nav>
             <ul className={styles.navLinks}>
               {navLinks.map((link) => (
