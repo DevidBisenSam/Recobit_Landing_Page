@@ -1,0 +1,931 @@
+/* ============================================================================
+   BOOK DEMO SCENE — fills exactly (100vh - 48px) so that
+   BookDemoScene + 48px Footer = one full viewport screen.
+   Left:  Photorealistic CSS 3D mahogany register + SVG sequential cross draw
+   Right: Premium glassmorphism form — clean, minimal, form-fields only
+   Theme: transparent, floats on warm cream canvas
+   ============================================================================ */
+
+/* ── OUTER SECTION: 100vh viewport lock with top navbar clearance ─── */
+.demoSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: transparent;
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 5;
+  padding-top: 76px; /* Generous clearance so headline is comfortably below fixed navbar */
+}
+
+/* Ambient warm glows */
+.ambientGlowOrange {
+  position: absolute;
+  top: -10%;
+  left: 5%;
+  width: 520px;
+  height: 420px;
+  background: radial-gradient(ellipse, rgba(255, 85, 0, 0.06) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+.ambientGlowGreen {
+  position: absolute;
+  bottom: 8%;
+  right: 3%;
+  width: 380px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── TOP HEADLINE STRIP ─────────────────────────────────────────────────────── */
+.headlineStrip {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+  padding: clamp(0.4rem, 1vh, 0.8rem) clamp(1rem, 4vw, 4rem) 0;
+  flex-shrink: 0;
+}
+
+.mainHeadline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.12rem, 1.85vw, 1.85rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: #0B0F17;
+  margin: 0;
+}
+
+.headlineHighlight {
+  color: #FF5500;
+}
+
+/* ── SPLIT BODY: Model on left, Form on right ─────────────────────────────── */
+.splitBody {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  padding: 0 clamp(1.5rem, 4vw, 5rem);
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  box-sizing: border-box;
+}
+
+/* ============================================================================
+   LEFT: PHOTOREALISTIC MAHOGANY 3D REGISTER MODEL
+   Same quality as the main book model in SieveScene
+   ============================================================================ */
+.leftModelWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100%;
+}
+
+/* 3D perspective scene */
+.modelScene {
+  perspective: 1400px;
+  perspective-origin: 52% 48%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  /* Compact height to sit neatly in single screen */
+  height: min(280px, 80%);
+}
+
+/* Register body — 3D tilt matching the book model */
+.register3d {
+  position: relative;
+  width: 240px;
+  height: 265px;
+  transform-style: preserve-3d;
+  transform: rotateY(-26deg) rotateX(8deg);
+  animation: registerFloat 5.5s ease-in-out infinite;
+}
+
+@keyframes registerFloat {
+  0%, 100% { transform: rotateY(-26deg) rotateX(8deg) translateY(0px); }
+  50%       { transform: rotateY(-26deg) rotateX(8deg) translateY(-10px); }
+}
+
+/* ── FRONT FACE: Photorealistic mahogany with paper inside ─────────────────── */
+.regFront {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  border-radius: 3px 10px 10px 3px;
+  overflow: hidden;
+  /* Same mahogany treatment as SieveScene's pageCover */
+  border: 2.5px solid #160B05;
+  box-shadow:
+    6px 10px 30px rgba(0, 0, 0, 0.32),
+    inset 0 0 40px rgba(0, 0, 0, 0.6),
+    inset 2px 0 8px rgba(255, 190, 120, 0.15);
+}
+
+/* ── LEFT SPINE: Dark mahogany leather strip ─────────────────────────────── */
+.regSpine {
+  width: 32px;
+  flex-shrink: 0;
+  /* Photorealistic mahogany wood + overlay */
+  background-image:
+    linear-gradient(145deg, rgba(20,10,5,0.7) 0%, rgba(15,8,3,0.5) 100%),
+    url('/images/wood_cover_texture.jpg');
+  background-size: 150px, cover;
+  background-position: left center, left center;
+  border-right: 2px solid #4A2A14;
+  box-shadow: inset -2px 0 10px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 10px 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Gold stitch seam on spine */
+.regSpine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 5px;
+  width: 1px;
+  border-right: 1px dashed rgba(212, 175, 55, 0.45);
+}
+
+.regSpineHole {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #1C0D07 0%, #0D0603 100%);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.regSpineText {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.44rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.8);
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* ── PAPER BODY inside the register ─────────────────────────────────────── */
+.regBody {
+  flex: 1;
+  /* Aged parchment paper */
+  background: #FDFAF4;
+  background-image:
+    repeating-linear-gradient(
+      transparent,
+      transparent 22px,
+      rgba(15, 23, 42, 0.06) 22px,
+      rgba(15, 23, 42, 0.06) 23px
+    );
+  padding: 0.75rem 0.7rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Red ledger rule at top — authentic Indian account book style */
+.regRedRule {
+  width: 100%;
+  height: 2px;
+  background: #C41230;
+  opacity: 0.6;
+  margin-bottom: 0.45rem;
+  flex-shrink: 0;
+}
+
+/* Company header at top like a real account register */
+.regCompanyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.4rem;
+  flex-shrink: 0;
+}
+
+.regCompanyName {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: 0.04em;
+}
+
+.regFyTag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.48rem;
+  font-weight: 700;
+  color: #64748B;
+  letter-spacing: 0.06em;
+}
+
+/* Red vertical ledger line (like Indian account books) */
+.regLedgerLine {
+  position: absolute;
+  top: 0;
+  left: 26px;
+  width: 1.5px;
+  height: 100%;
+  background: rgba(196, 18, 48, 0.2);
+  z-index: 1;
+}
+
+/* Column header row */
+.regHeaderRow {
+  display: grid;
+  grid-template-columns: 0.7fr 1.4fr 0.85fr 0.55fr;
+  gap: 2px;
+  margin-bottom: 0.3rem;
+  flex-shrink: 0;
+}
+
+.regColHead {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  font-weight: 900;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1.5px double rgba(15, 23, 42, 0.15);
+  padding-bottom: 2px;
+}
+
+/* Data rows */
+.regRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+}
+
+.regRow {
+  display: grid;
+  grid-template-columns: 0.7fr 1.4fr 0.85fr 0.55fr;
+  gap: 2px;
+  padding: 2.5px 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+  align-items: center;
+}
+
+.regCell {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.53rem;
+  color: #334155;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.regCellPending {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem;
+  font-weight: 900;
+  color: #B91C1C;
+  background: rgba(185, 28, 28, 0.07);
+  border-radius: 2px;
+  padding: 1px 3px;
+  text-align: center;
+}
+
+/* ── REGISTER 3D EDGES: book thickness ──────────────────────────────────── */
+/* Right thickness edge */
+.regEdgeRight {
+  position: absolute;
+  top: 4px;
+  right: -20px;
+  width: 20px;
+  height: calc(100% - 8px);
+  transform-style: preserve-3d;
+  transform: rotateY(90deg);
+  transform-origin: left center;
+  background: linear-gradient(180deg, #E8E3DC 0%, #D4CFC8 50%, #C8C3BC 100%);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  overflow: hidden;
+}
+
+/* Stacked page lines in the edge */
+.regPageLines {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5px;
+  padding: 4px 2px;
+}
+
+.regPageLine {
+  height: 1px;
+  background: rgba(15, 23, 42, 0.1);
+  border-radius: 1px;
+}
+
+/* Top edge */
+.regEdgeTop {
+  position: absolute;
+  top: -14px;
+  left: 4px;
+  right: 0;
+  height: 14px;
+  transform-style: preserve-3d;
+  transform: rotateX(90deg);
+  transform-origin: bottom center;
+  background: linear-gradient(180deg, #E0DDD7 0%, #CFCCC6 100%);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+}
+
+/* Gold corner brackets — same as book model */
+.regCornerTL, .regCornerTR, .regCornerBL, .regCornerBR {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(212, 175, 55, 0.75);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 4;
+}
+.regCornerTL { top: 8px;  left: 8px;  border-width: 2px 0 0 2px; }
+.regCornerTR { top: 8px;  right: 3px; border-width: 2px 2px 0 0; }
+.regCornerBL { bottom: 8px; left: 8px;  border-width: 0 0 2px 2px; }
+.regCornerBR { bottom: 8px; right: 3px; border-width: 0 2px 2px 0; }
+
+/* Drop shadow beneath */
+.regShadow {
+  position: absolute;
+  bottom: -28px;
+  left: 8%;
+  width: 82%;
+  height: 22px;
+  background: radial-gradient(ellipse, rgba(15, 23, 42, 0.25) 0%, transparent 70%);
+  filter: blur(8px);
+}
+
+/* ============================================================================
+   SVG CROSS: SEQUENTIAL DRAW → ARM1 draws 0-0.8s, ARM2 draws 0.8s-1.6s,
+   hold 1.6s-3.5s, fade 3.5s-4s, pause 4s-5s, repeat every 5s
+   ============================================================================ */
+.crossOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Shifted a bit left/up to land centre of register front face */
+  transform: translate(-54%, -55%);
+  width: 180px;
+  height: 180px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.crossSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Outer glow circle — pulses gently */
+.crossCircle {
+  animation: crossCirclePulse 5s ease-in-out infinite;
+}
+
+@keyframes crossCirclePulse {
+  0%, 30%  { opacity: 0; }
+  35%      { opacity: 1; }
+  72%      { opacity: 1; }
+  80%, 100% { opacity: 0; }
+}
+
+/* ARM 1: Top-left → Bottom-right
+   Diagonal length for 100x100 viewBox diagonal = sqrt(2)*100 ≈ 141.4 */
+.crossArm1 {
+  stroke-dasharray: 142;
+  stroke-dashoffset: 142;
+  animation: drawArm1 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes drawArm1 {
+  /* Arm 1 draws in 0 → 0.9s */
+  0%  { stroke-dashoffset: 142; opacity: 1; }
+  18% { stroke-dashoffset: 0;   opacity: 1; }
+  /* Hold through arm 2 and display period */
+  70% { stroke-dashoffset: 0;   opacity: 1; }
+  /* Fade out */
+  82% { stroke-dashoffset: 0;   opacity: 0; }
+  /* Stay hidden until next cycle */
+  83%, 100% { stroke-dashoffset: 142; opacity: 0; }
+}
+
+/* ARM 2: Top-right → Bottom-left
+   Starts drawing after arm 1 is done */
+.crossArm2 {
+  stroke-dasharray: 142;
+  stroke-dashoffset: 142;
+  animation: drawArm2 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes drawArm2 {
+  /* Hidden until arm1 is done (~18% = 0.9s) */
+  0%, 15% { stroke-dashoffset: 142; opacity: 1; }
+  /* Arm 2 draws from 15% → 33% (0.75s → 1.65s) */
+  33% { stroke-dashoffset: 0; opacity: 1; }
+  /* Hold */
+  70% { stroke-dashoffset: 0; opacity: 1; }
+  /* Fade out together */
+  82% { stroke-dashoffset: 0; opacity: 0; }
+  83%, 100% { stroke-dashoffset: 142; opacity: 0; }
+}
+
+/* Caption badge */
+.modelCaption {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #B91C1C;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(185, 28, 28, 0.28);
+  border-radius: 100px;
+  padding: 0.3rem 0.85rem;
+  backdrop-filter: blur(10px);
+}
+
+.captionDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #DC2626;
+  box-shadow: 0 0 7px #DC2626;
+  animation: captionDotPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes captionDotPulse {
+  0%, 100% { box-shadow: 0 0 5px #DC2626; }
+  50%       { box-shadow: 0 0 12px #DC2626; }
+}
+
+/* ============================================================================
+   RIGHT: PREMIUM GLASSMORPHISM FORM — form fields only, clean & minimal
+   ============================================================================ */
+.rightFormWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.glassFormCard {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  box-shadow:
+    0 18px 45px -15px rgba(15, 23, 42, 0.12),
+    0 4px 14px rgba(15, 23, 42, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  padding: clamp(0.7rem, 1.4vh, 1.05rem) clamp(0.95rem, 1.6vw, 1.35rem);
+  box-sizing: border-box;
+}
+
+/* Single eyebrow: "Book a Live Free Demo" — that's it, no subtitle */
+.formTopLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.formDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FF5500;
+  box-shadow: 0 0 10px rgba(255, 85, 0, 0.7);
+  flex-shrink: 0;
+  animation: formDotPulse 2s ease-in-out infinite;
+}
+
+@keyframes formDotPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 85, 0, 0.6); transform: scale(1); }
+  50% { box-shadow: 0 0 18px rgba(255, 85, 0, 0.9); transform: scale(1.2); }
+}
+
+.formTopTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  font-weight: 900;
+  color: #0F172A;
+  letter-spacing: -0.022em;
+  margin: 0;
+}
+
+/* ── FORM FIELDS ─────────────────────────────────────────────────────────────── */
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.fieldLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #64748B;
+}
+
+/* Base input style */
+.fieldInput {
+  width: 100%;
+  background: rgba(248, 250, 252, 0.85);
+  border: 1.5px solid rgba(203, 213, 225, 0.8);
+  border-radius: 8px;
+  padding: 0.54rem 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  color: #0F172A;
+  outline: none;
+  transition: all 0.22s ease;
+  box-sizing: border-box;
+}
+
+.fieldInput:focus {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: #FF5500;
+  box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.1);
+}
+
+.fieldInput::placeholder {
+  color: #94A3B8;
+}
+
+/* Phone with +91 */
+.phoneFieldWrap {
+  display: flex;
+  background: rgba(248, 250, 252, 0.85);
+  border: 1.5px solid rgba(203, 213, 225, 0.8);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.22s ease;
+}
+
+.phoneFieldWrap:focus-within {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: #FF5500;
+  box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.1);
+}
+
+.phonePrefix {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #475569;
+  padding: 0.54rem 0.7rem;
+  background: rgba(241, 245, 249, 0.9);
+  border-right: 1.5px solid rgba(203, 213, 225, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.phoneFieldInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.54rem 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  color: #0F172A;
+}
+
+.phoneFieldInput::placeholder {
+  color: #94A3B8;
+}
+
+/* Premium select dropdown */
+.fieldSelect {
+  width: 100%;
+  background: rgba(248, 250, 252, 0.85);
+  border: 1.5px solid rgba(203, 213, 225, 0.8);
+  border-radius: 8px;
+  padding: 0.54rem 2rem 0.54rem 0.8rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #0F172A;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  /* Custom chevron */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 13px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-sizing: border-box;
+}
+
+.fieldSelect:focus {
+  background-color: rgba(255, 255, 255, 0.98);
+  border-color: #FF5500;
+  box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.1);
+}
+
+/* Two-column grid for software + slot */
+.fieldRowDouble {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+/* ── SUBMIT BUTTON ─────────────────────────────────────────────────────────── */
+.submitButton {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #FF6B1A 0%, #FF5500 55%, #E04B00 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9px;
+  padding: 0.7rem 1.1rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: 0 8px 22px -5px rgba(255, 85, 0, 0.45);
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  margin-top: 0.05rem;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px -6px rgba(255, 85, 0, 0.58);
+}
+
+.submitButton:active {
+  transform: translateY(0px) scale(0.99);
+}
+
+.submitShimmer {
+  position: absolute;
+  inset: 0;
+  left: -80%;
+  width: 50%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+  transform: skewX(-18deg);
+  animation: submitShimmerSweep 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes submitShimmerSweep {
+  0%       { left: -80%; }
+  35%, 100% { left: 180%; }
+}
+
+/* ── WHATSAPP BUTTON: full visible button, not just a link ─────────────────── */
+.whatsappButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: rgba(37, 211, 102, 0.08);
+  border: 1.5px solid rgba(37, 211, 102, 0.4);
+  border-radius: 9px;
+  padding: 0.6rem 1rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #075E54;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.whatsappButton:hover {
+  background: rgba(37, 211, 102, 0.15);
+  border-color: rgba(37, 211, 102, 0.65);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -6px rgba(37, 211, 102, 0.35);
+}
+
+.waLiveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 0 8px #25D366;
+  flex-shrink: 0;
+  animation: waDotPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes waDotPulse {
+  0%, 100% { box-shadow: 0 0 5px #25D366; }
+  50% { box-shadow: 0 0 14px #25D366; }
+}
+
+/* ── SUCCESS STATE ─────────────────────────────────────────────────────────── */
+.successWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.9rem;
+  padding: 0.5rem 0;
+  animation: successPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes successPop {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.successCircle {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.1);
+  border: 2px solid #10B981;
+  color: #10B981;
+  font-size: 2rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 28px rgba(16, 185, 129, 0.3);
+}
+
+.successH {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.successP {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.83rem;
+  color: #475569;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.successRecap {
+  width: 100%;
+  background: #F0FDF4;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.recapItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.recapLbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #6EE7B7;
+  text-transform: uppercase;
+}
+
+.recapVal {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+.successWaBtn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #25D366;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 6px 20px -4px rgba(37, 211, 102, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.successWaBtn:hover {
+  transform: translateY(-2px);
+}
+
+.successResetBtn {
+  background: transparent;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
+  border-radius: 8px;
+  padding: 0.48rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.successResetBtn:hover {
+  background: #F8FAFC;
+  color: #0F172A;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .demoSection {
+    height: auto;
+    min-height: 100vh;
+    max-height: none;
+    padding-bottom: 2rem;
+  }
+
+  .splitBody {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-top: 0.5rem;
+  }
+
+  .leftModelWrap {
+    height: 320px;
+  }
+
+  .mainHeadline {
+    font-size: clamp(1.3rem, 4.5vw, 2rem);
+  }
+
+  .fieldRowDouble {
+    grid-template-columns: 1fr;
+  }
+}

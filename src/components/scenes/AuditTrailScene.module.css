@@ -1,0 +1,570 @@
+﻿/* ============================================================================
+   RECOBIT — 3D DUAL-LOCK CRYPTOGRAPHIC VAULT (ANIMATION-HEAVY)
+   Visually stunning, low-text, kinetic 3D perspective engine.
+   Strict navbar clearance: 85px top padding. Zero layout overlap.
+   ============================================================================ */
+
+.scrollTrack {
+  position: relative;
+  width: 100%;
+  height: 500vh;
+}
+
+.stickyStage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: transparent;
+  padding-top: 85px;
+  padding-bottom: 25px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  perspective: 1200px;
+}
+
+/* ============================================================================
+   HEADER — Minimal, High-Impact (Top)
+   ============================================================================ */
+.vaultHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  z-index: 10;
+  padding: 0 1.5rem;
+}
+
+.vaultEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #FF5500;
+}
+
+.eyebrowRadar {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FF5500;
+  box-shadow: 0 0 10px rgba(255, 85, 0, 0.8);
+  animation: radarPulse 1.6s infinite ease-out;
+}
+
+@keyframes radarPulse {
+  0%   { transform: scale(1); opacity: 1; }
+  50%  { transform: scale(1.6); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.vaultHeadline {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: clamp(2rem, 3.4vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #0F172A;
+  margin: 0;
+}
+
+.headlineGradient {
+  background: linear-gradient(135deg, #FF6B1A 0%, #FF5500 50%, #D946EF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.vaultSubline {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.9rem, 1.05vw, 1.02rem);
+  font-weight: 500;
+  color: #475569;
+  max-width: 580px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── INTERACTIVE MODE TOGGLE (SOLO vs TEAM) ──────────────────────────────── */
+.modeSelector {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  padding: 0.3rem;
+  border-radius: 100px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  margin-top: 0.3rem;
+}
+
+.modeToggleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 1.1rem;
+  border-radius: 100px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #64748B;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modeToggleActive {
+  background: #0F172A;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+}
+
+/* ============================================================================
+   CENTER STAGE — The 3D Kinetic Machine (Center 60vh)
+   ============================================================================ */
+.kineticStage {
+  position: relative;
+  width: 100%;
+  max-width: 1020px;
+  height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  box-sizing: border-box;
+}
+
+/* ── THE LASER CONDUIT (Connecting Beam) ─────────────────────────────────── */
+.laserConduit {
+  position: absolute;
+  top: 50%;
+  left: 12%;
+  right: 12%;
+  height: 3px;
+  background: linear-gradient(90deg, #3B82F6 0%, #F59E0B 50%, #10B981 100%);
+  box-shadow:
+    0 0 12px rgba(59, 130, 246, 0.6),
+    0 0 24px rgba(16, 185, 129, 0.5);
+  transform: translateY(-50%);
+  z-index: 1;
+  border-radius: 100px;
+}
+
+/* Flowing photon packet across the laser */
+.laserPhoton {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 32px;
+  height: 11px;
+  background: #FFFFFF;
+  border-radius: 100px;
+  box-shadow: 0 0 16px #FFFFFF, 0 0 30px #FF5500;
+  animation: photonTravel 2.4s infinite cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+@keyframes photonTravel {
+  0%   { left: 0%; opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { left: 96%; opacity: 0; }
+}
+
+/* ============================================================================
+   NODE 1 — THE MAKER (Left 3D Floating Cylinder)
+   ============================================================================ */
+.nodeMaker {
+  position: absolute;
+  left: 4%;
+  width: 260px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 24px;
+  padding: 1.4rem 1.3rem;
+  box-shadow:
+    0 8px 30px rgba(59, 130, 246, 0.12),
+    0 20px 50px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.65rem;
+  z-index: 5;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.nodeMaker:hover {
+  transform: translateY(-4px) rotateY(6deg);
+}
+
+/* Node Solo Mode Transform: Glides inward to merge */
+.nodeMakerSolo {
+  transform: translateX(180px) !important;
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);
+}
+
+.makerCoreOrb {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #93C5FD, #2563EB);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  box-shadow: 0 0 24px rgba(37, 99, 235, 0.5);
+}
+
+.makerPulseRing {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(59, 130, 246, 0.5);
+  animation: rotateRing 14s infinite linear;
+}
+
+@keyframes rotateRing {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.nodeRoleTag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2563EB;
+  background: rgba(37, 99, 235, 0.08);
+  padding: 0.22rem 0.65rem;
+  border-radius: 100px;
+}
+
+.nodeTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.nodeSub {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: #64748B;
+  margin: 0;
+}
+
+/* Micro-HUD inside node */
+.nodeHudBox {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 12px;
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.2rem;
+}
+
+.hudRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.hudValBlue { color: #2563EB; font-weight: 700; }
+.hudValGreen { color: #059669; font-weight: 700; }
+
+/* ============================================================================
+   CENTER — THE IMMUTABLE VAULT CORE (Rotating Cryptographic Lock)
+   ============================================================================ */
+.vaultCore {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+  transform-style: preserve-3d;
+}
+
+.coreOuterRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 85, 0, 0.5);
+  box-shadow: 0 0 30px rgba(255, 85, 0, 0.2);
+  animation: rotateRing 18s infinite linear;
+}
+
+.coreInnerDisc {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.95);
+  border: 2px solid rgba(255, 85, 0, 0.5);
+  box-shadow:
+    0 0 20px rgba(255, 85, 0, 0.4),
+    inset 0 0 20px rgba(255, 85, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  color: #FFFFFF;
+}
+
+.coreLockIcon {
+  font-size: 1.6rem;
+  color: #FF5500;
+  animation: lockFloat 3s infinite ease-in-out;
+}
+
+@keyframes lockFloat {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.1); }
+}
+
+.coreHashStream {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #38BDF8;
+  letter-spacing: 0.06em;
+}
+
+.coreStatusBadge {
+  position: absolute;
+  bottom: -22px;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0F172A;
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  padding: 0.25rem 0.75rem;
+  border-radius: 100px;
+}
+
+/* ============================================================================
+   NODE 2 — THE CHECKER (Right 3D Floating Cylinder)
+   ============================================================================ */
+.nodeChecker {
+  position: absolute;
+  right: 4%;
+  width: 260px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: 24px;
+  padding: 1.4rem 1.3rem;
+  box-shadow:
+    0 8px 30px rgba(16, 185, 129, 0.12),
+    0 20px 50px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.65rem;
+  z-index: 5;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.nodeChecker:hover {
+  transform: translateY(-4px) rotateY(-6deg);
+}
+
+/* Node Solo Mode Transform: Glides inward to merge */
+.nodeCheckerSolo {
+  transform: translateX(-180px) !important;
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+.checkerCoreOrb {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #6EE7B7, #059669);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.5);
+}
+
+.checkerRadarSweep {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(16, 185, 129, 0.5);
+  animation: rotateRing 14s infinite linear reverse;
+}
+
+.nodeRoleTagChecker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #065F46;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.22rem 0.65rem;
+  border-radius: 100px;
+}
+
+/* ============================================================================
+   HOLOGRAPHIC CERTIFICATE PAYOFF (Emerges on Scroll / Bottom)
+   ============================================================================ */
+.certificateBar {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: 18px;
+  padding: 0.85rem 1.6rem;
+  box-shadow:
+    0 8px 30px rgba(16, 185, 129, 0.12),
+    0 0 60px rgba(16, 185, 129, 0.05),
+    inset 0 1px 0 #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  z-index: 10;
+  transform: translateY(30px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.certLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.certSealBadge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+  flex-shrink: 0;
+}
+
+.certTextWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.certTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #065F46;
+}
+
+.certSub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.printBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #FF6B1A, #FF5500);
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 85, 0, 0.32);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.printBtnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 85, 0, 0.42);
+}
+
+.printBtnPrimary::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transform: skewX(-20deg);
+  animation: pillGlint 3s infinite ease-in-out;
+}
+
+@keyframes pillGlint {
+  0% { left: -80%; }
+  35%, 100% { left: 140%; }
+}
+
+/* ============================================================================
+   RESPONSIVE (Mobile / Tablet)
+   ============================================================================ */
+@media (max-width: 900px) {
+  .scrollTrack { height: auto; }
+  .stickyStage { position: relative; height: auto; overflow: visible; padding-top: 5rem; display: flex; gap: 2.5rem; }
+  .kineticStage { height: auto; display: flex; flex-direction: column; gap: 2rem; }
+  .laserConduit { display: none; }
+  .nodeMaker, .nodeChecker { position: relative; left: auto; right: auto; width: 100%; max-width: 360px; transform: none !important; opacity: 1 !important; }
+  .vaultCore { display: none; }
+  .certificateBar { flex-direction: column; align-items: center; text-align: center; transform: none !important; opacity: 1 !important; }
+  .certLeft { flex-direction: column; }
+}

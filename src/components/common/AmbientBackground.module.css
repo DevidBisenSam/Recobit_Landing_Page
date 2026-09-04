@@ -1,142 +1,239 @@
+/* =========================================================================
+   PILLAR 4 — Ethereal Celestial Alabaster Base
+   Not flat hospital white — a living, breathing solar canvas
+   Only white shades + orange shades — zero other colors
+   ========================================================================= */
+
 .ambientWrapper {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+
+  /* Celestial Alabaster: warm solar champagne white, not clinical flat white */
+  background:
+    radial-gradient(ellipse 80% 55% at 50% -5%, rgba(255, 120, 20, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 45% at 92% 20%, rgba(255, 95, 0, 0.065) 0%, transparent 58%),
+    radial-gradient(ellipse 70% 50% at 5% 85%, rgba(255, 140, 40, 0.055) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 60% at 50% 110%, rgba(255, 175, 80, 0.06) 0%, transparent 55%),
+    linear-gradient(170deg, #FEFCF8 0%, #FAF8F4 35%, #FDF9F5 70%, #FAFAF8 100%);
 }
 
-.ambientCanvas {
+/* =========================================================================
+   PILLAR A — Film Grain / Noise Texture
+   The single biggest premium upgrade — transforms flat digital to analog canvas
+   SVG feTurbulence generates infinite high-quality noise — zero image weight
+   mix-blend-mode: overlay lets it react with the warm background colors beneath
+   ========================================================================= */
+.filmGrain {
+  position: absolute;
+  inset: -20%;   /* Bigger than viewport so it can animate without edges showing */
+  width: 140%;
+  height: 140%;
+  z-index: 4;    /* Above canvas, below content */
+  pointer-events: none;
+  opacity: 0.038; /* Barely perceptible — premium sites use 3-5% */
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  animation: grainShift 0.15s steps(1) infinite;
+  will-change: transform;
+}
+
+@keyframes grainShift {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-3%, -4%); }
+  20%  { transform: translate(4%, 2%); }
+  30%  { transform: translate(-2%, 5%); }
+  40%  { transform: translate(5%, -3%); }
+  50%  { transform: translate(-4%, 4%); }
+  60%  { transform: translate(3%, -5%); }
+  70%  { transform: translate(-5%, 2%); }
+  80%  { transform: translate(2%, 4%); }
+  90%  { transform: translate(-3%, -2%); }
+  100% { transform: translate(4%, 3%); }
+}
+
+/* =========================================================================
+   PILLAR C — Cursor Warm Aura Light Trail
+   A 400px warm orange/champagne radial glow that lazily follows the cursor.
+   It illuminates the particle field around the cursor, making particles
+   "light up" near the mouse — exactly like lenis.dev's interactive glow.
+   ========================================================================= */
+.cursorAura {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(
+    circle,
+    rgba(255, 130, 0, 0.10) 0%,
+    rgba(255, 100, 0, 0.055) 35%,
+    rgba(255, 80, 0, 0.022) 60%,
+    transparent 75%
+  );
+  filter: blur(18px);
+  mix-blend-mode: multiply;
+  will-change: transform;
+  /* Starts offscreen */
+  transform: translate(-9999px, -9999px);
+}
+
+/* =========================================================================
+   PILLAR 1 — Solar Nebula Gas Clouds
+   ========================================================================= */
+.solarNebulaCore {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80vw;
+  height: 80vw;
+  max-width: 1100px;
+  max-height: 1100px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 140, 30, 0.07) 0%,
+    rgba(255, 100, 0, 0.032) 40%,
+    transparent 70%
+  );
+  filter: blur(80px);
+  pointer-events: none;
+  animation: coreBreath 18s ease-in-out infinite alternate;
+}
+
+.nebulaCloud1 {
+  position: absolute;
+  top: -15%;
+  right: -8%;
+  width: 70vw;
+  height: 70vw;
+  max-width: 920px;
+  max-height: 920px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 110, 0, 0.065) 0%,
+    rgba(255, 165, 50, 0.028) 45%,
+    transparent 70%
+  );
+  filter: blur(72px);
+  pointer-events: none;
+  animation: nebulaDrift1 38s ease-in-out infinite alternate;
+}
+
+.nebulaCloud2 {
+  position: absolute;
+  bottom: -15%;
+  left: -8%;
+  width: 65vw;
+  height: 65vw;
+  max-width: 880px;
+  max-height: 880px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 140, 40, 0.058) 0%,
+    rgba(255, 190, 80, 0.022) 45%,
+    transparent 70%
+  );
+  filter: blur(76px);
+  pointer-events: none;
+  animation: nebulaDrift2 46s ease-in-out infinite alternate-reverse;
+}
+
+.nebulaCloud3 {
+  position: absolute;
+  top: 30%;
+  left: -12%;
+  width: 50vw;
+  height: 50vw;
+  max-width: 700px;
+  max-height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 95, 0, 0.045) 0%,
+    rgba(255, 130, 30, 0.016) 50%,
+    transparent 72%
+  );
+  filter: blur(68px);
+  pointer-events: none;
+  animation: nebulaDrift3 54s ease-in-out infinite alternate;
+}
+
+/* =========================================================================
+   PILLAR 4 — Cosmic Edge Vignette
+   ========================================================================= */
+.cosmicVignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 100% 100% at 50% 50%,
+      transparent 55%,
+      rgba(255, 90, 0, 0.025) 80%,
+      rgba(200, 70, 0, 0.048) 100%
+    );
+}
+
+/* =========================================================================
+   Animations
+   ========================================================================= */
+@keyframes coreBreath {
+  0%   { transform: translate(-50%, -50%) scale(1);    opacity: 0.7; }
+  50%  { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0.93); opacity: 0.6; }
+}
+
+@keyframes nebulaDrift1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(28px, -22px) scale(1.07); }
+  100% { transform: translate(-22px, 28px) scale(0.95); }
+}
+
+@keyframes nebulaDrift2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-24px, 18px) scale(1.06); }
+  100% { transform: translate(18px, -24px) scale(0.96); }
+}
+
+@keyframes nebulaDrift3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  40%  { transform: translate(16px, -20px) scale(1.05); }
+  100% { transform: translate(-18px, 16px) scale(0.94); }
+}
+
+/* Full-Screen 3D WebGL Canvas */
+.threeCanvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Floating Ambient Glowing Bubbles / Orbs */
-.glowOrb1 {
-  position: absolute;
-  top: 5%;
-  left: 30%;
-  width: clamp(450px, 60vw, 850px);
-  height: clamp(450px, 60vw, 850px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 85, 0, 0.16) 0%, rgba(255, 120, 0, 0.06) 50%, transparent 75%);
-  filter: blur(50px);
-  animation: floatBubble1 16s ease-in-out infinite alternate;
-}
-
-.glowOrb2 {
-  position: absolute;
-  top: 25%;
-  right: -5%;
-  width: clamp(380px, 50vw, 700px);
-  height: clamp(380px, 50vw, 700px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 120, 0, 0.14) 0%, rgba(255, 170, 0, 0.05) 55%, transparent 75%);
-  filter: blur(60px);
-  animation: floatBubble2 20s ease-in-out infinite alternate;
-}
-
-.glowOrb3 {
-  position: absolute;
-  top: 48%;
-  left: -8%;
-  width: clamp(400px, 52vw, 750px);
-  height: clamp(400px, 52vw, 750px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 85, 0, 0.14) 0%, rgba(255, 70, 0, 0.04) 50%, transparent 70%);
-  filter: blur(55px);
-  animation: floatBubble3 22s ease-in-out infinite alternate;
-}
-
-.glowOrb4 {
-  position: absolute;
-  top: 65%;
-  right: 15%;
-  width: clamp(420px, 55vw, 800px);
-  height: clamp(420px, 55vw, 800px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.04) 50%, transparent 75%);
-  filter: blur(65px);
-  animation: floatBubble1 24s ease-in-out infinite alternate-reverse;
-}
-
-.glowOrb5 {
-  position: absolute;
-  bottom: 5%;
-  left: 20%;
-  width: clamp(480px, 65vw, 900px);
-  height: clamp(480px, 65vw, 900px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 85, 0, 0.15) 0%, rgba(255, 140, 0, 0.05) 55%, transparent 80%);
-  filter: blur(60px);
-  animation: floatBubble2 19s ease-in-out infinite alternate-reverse;
-}
-
-.glowOrb6 {
-  position: absolute;
-  top: 38%;
-  left: 55%;
-  width: clamp(280px, 35vw, 500px);
-  height: clamp(280px, 35vw, 500px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 100, 20, 0.12) 0%, rgba(255, 160, 50, 0.04) 50%, transparent 70%);
-  filter: blur(45px);
-  animation: floatBubble3 17s ease-in-out infinite alternate;
-}
-
-.glowOrb7 {
-  position: absolute;
-  bottom: 25%;
-  right: -5%;
-  width: clamp(350px, 45vw, 650px);
-  height: clamp(350px, 45vw, 650px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 85, 0, 0.12) 0%, transparent 65%);
-  filter: blur(50px);
-  animation: floatBubble1 21s ease-in-out infinite alternate;
-}
-
-@keyframes floatBubble1 {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(30px, -45px) scale(1.08);
-  }
-  100% {
-    transform: translate(-35px, 25px) scale(0.94);
-  }
-}
-
-@keyframes floatBubble2 {
-  0% {
-    transform: translate(0, 0) scale(0.96);
-  }
-  50% {
-    transform: translate(-40px, 35px) scale(1.1);
-  }
-  100% {
-    transform: translate(25px, -30px) scale(1);
-  }
-}
-
-@keyframes floatBubble3 {
-  0% {
-    transform: translate(0, 0) scale(1.04);
-  }
-  50% {
-    transform: translate(35px, 40px) scale(0.92);
-  }
-  100% {
-    transform: translate(-30px, -35px) scale(1.06);
-  }
-}
-
+/* Reduced motion: disable grain animation and aura */
 @media (prefers-reduced-motion: reduce) {
-  .glowOrb1, .glowOrb2, .glowOrb3, .glowOrb4, .glowOrb5, .glowOrb6, .glowOrb7 {
+  .filmGrain {
+    animation: none;
+  }
+  .cursorAura {
+    display: none;
+  }
+  .solarNebulaCore,
+  .nebulaCloud1,
+  .nebulaCloud2,
+  .nebulaCloud3 {
     animation: none;
   }
 }

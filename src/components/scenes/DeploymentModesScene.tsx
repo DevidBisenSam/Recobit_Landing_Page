@@ -1,141 +1,200 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Globe, FileText, Monitor, CheckCircle2, ArrowRight, ShieldCheck, Cpu } from 'lucide-react';
+import { Check } from 'lucide-react';
 import styles from './DeploymentModesScene.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const deploymentModes = [
+interface CardData {
+  id: string;
+  step: string;
+  titleLines: string[];
+  badge: string;
+  badgeTheme: 'orange' | 'emerald' | 'blue';
+  description: string;
+  features: string[];
+}
+
+const cards: CardData[] = [
   {
-    id: 'mode-cloud-connector',
-    icon: Globe,
-    title: '1. Web App + Local Connector',
-    subtitle: 'Cloud Intelligence connected to your ERP',
+    id: 'mode-web-connector',
+    step: '01',
+    titleLines: ['TALLY & ERP', 'AUTO-SYNC'],
     badge: 'MOST POPULAR',
+    badgeTheme: 'orange',
     description:
-      'Access RecoBit from any modern browser. A lightweight local connector runs quietly on your LAN to sync with Tally Prime / ERP without exposing ports or requiring complex VPNs.',
-    bullets: [
-      'Zero firewall modifications or public IP requirements',
-      'Real-time bi-directional voucher sync with Tally Prime',
-      'Multi-user access with Maker-Checker controls anywhere',
-    ],
+      'Connects directly with your office Tally Prime or ERP. Fetches the daybook, matches with your bank statement, and pushes approved entries back into Tally automatically.',
+    features: ['Direct Tally Daybook Sync', 'No IT Setup Needed', '100% Data Stays on Office Network'],
   },
   {
-    id: 'mode-file-based',
-    icon: FileText,
-    title: '2. File In / File Out',
-    subtitle: 'Instant Statement Ingestion to Clean Excel/PDF',
-    badge: 'ZERO SETUP',
+    id: 'mode-file-in-out',
+    step: '02',
+    titleLines: ['EXCEL & PDF', 'UPLOAD'],
+    badge: 'QUICK START',
+    badgeTheme: 'emerald',
     description:
-      'Drop your raw bank PDF or multi-sheet Excel statements into RecoBit. Our hybrid AI parses narrations, aligns ledgers, and gives you clean, audit-ready reconciled Excel files in seconds.',
-    bullets: [
-      'No ERP connection needed — start in under 60 seconds',
-      'Handles password-protected PDFs & scanned bank tables',
-      'Instant export to standardized Excel, CSV, or formatted PDF',
-    ],
+      'Simply upload your Bank PDF or Excel statement and your Cashbook export. RecoBit auto-reads password-protected PDFs, matches entries in seconds, and generates a clean matched Excel report.',
+    features: ['Auto-Reads Password-Protected PDFs', 'No Software Setup Required', 'Download Matched Excel Report'],
   },
   {
     id: 'mode-desktop-app',
-    icon: Monitor,
-    title: '3. Reco Desktop Application',
-    subtitle: 'Native On-Premises Standalone Performance',
-    badge: 'AIR-GAPPED & SECURE',
+    step: '03',
+    titleLines: ['100% OFFLINE', 'DESKTOP APP'],
+    badge: 'MAXIMUM PRIVACY',
+    badgeTheme: 'blue',
     description:
-      'A full native desktop application built for high-security enterprise environments, internal audit teams, and offline bookkeeping that keeps 100% of financial data strictly inside your local workstation.',
-    bullets: [
-      'Runs completely offline on Windows / workstation PCs',
-      'Ultra-fast local processing of 100,000+ transaction batches',
-      'Strict internal compliance & zero external data exposure',
-    ],
+      'Installed directly on your PC or Laptop like Tally. Works completely without internet. Ideal for CA firms, corporate accounts, and teams that do not want financial data on the cloud.',
+    features: ['Works Completely Without Internet', 'Zero Financial Data Leaves Your PC', 'Handles Millions of Entries Easily'],
   },
 ];
 
 export const DeploymentModesScene: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(`.${styles.modeCard}`, {
+      if (!sectionRef.current) return;
+
+      const card0 = cardRefs.current[0];
+      const card1 = cardRefs.current[1];
+      const card2 = cardRefs.current[2];
+
+      if (!card0 || !card1 || !card2) return;
+
+      // Master Pinned Scroll Timeline (Exact Lenis Floating Stack scrub)
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: cardsRef.current,
-          start: 'top 80%',
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=2400',
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
         },
-        y: 35,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 0.8,
-        ease: 'power3.out',
       });
+
+      // Initial positions:
+      // Card 0: In place, slight organic tilt
+      gsap.set(card0, { x: 0, y: 0, rotation: -1.5, opacity: 1, scale: 1 });
+      // Card 1: Off-screen bottom/right, ready to float in
+      gsap.set(card1, { x: 90, y: 280, rotation: 5, opacity: 0, scale: 0.94 });
+      // Card 2: Off-screen bottom/right, ready to float in
+      gsap.set(card2, { x: 180, y: 340, rotation: 8, opacity: 0, scale: 0.92 });
+
+      // Phase 1: Card 1 floats UP and IN, settling over Card 0 (Scroll 0.2 -> 0.5)
+      tl.to(
+        card1,
+        {
+          x: 70,
+          y: 0,
+          rotation: 1.2,
+          opacity: 1,
+          scale: 1,
+          duration: 0.45,
+          ease: 'power2.out',
+        },
+        0.2
+      );
+
+      // Phase 2: Card 2 floats UP and IN, settling over Card 1 (Scroll 0.55 -> 0.85)
+      tl.to(
+        card2,
+        {
+          x: 140,
+          y: 0,
+          rotation: -0.8,
+          opacity: 1,
+          scale: 1,
+          duration: 0.45,
+          ease: 'power2.out',
+        },
+        0.55
+      );
+
+      // Hold final cascade till the end of pin
+      tl.to([card0, card1, card2], { duration: 0.15 }, 0.95);
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="deployment-modes" ref={sectionRef} className={styles.sceneWrapper}>
-      <div className="container">
-        {/* Section Header */}
-        <div className={styles.sceneHeader}>
-          <div className={styles.actTag}>
-            <Cpu size={15} />
-            <span>FLEXIBLE DEPLOYMENT</span>
-          </div>
-          <h2 className={styles.title}>
-            3 ways to run RecoBit. <span className="text-gradient-orange">Zero IT friction.</span>
-          </h2>
-          <p className={styles.body}>
-            Whether you need modern cloud collaboration with an ERP connector, fast file-in/file-out reconciliation,
-            or a dedicated native desktop application for strict security — RecoBit adapts to your workflow.
-          </p>
-        </div>
+    <section id="deployment-modes" ref={sectionRef} className={styles.pinSection}>
+      <div className={styles.stageContainer}>
+        {/* =================================================================== */}
+        {/* LEFT: FLOATING LENIS-STYLE 01 / 02 / 03 CARDS STACK                 */}
+        {/* =================================================================== */}
+        <div className={styles.cardDeck}>
+          {cards.map((card, idx) => (
+            <div
+              key={card.id}
+              ref={(el) => {
+                cardRefs.current[idx] = el;
+              }}
+              onMouseEnter={() => setHoveredCard(idx)}
+              onMouseLeave={() => setHoveredCard(null)}
+              className={`${styles.floatCard} ${styles[`theme_${card.badgeTheme}`]} ${
+                hoveredCard === idx ? styles.cardIsHovered : ''
+              } ${styles[`floatingBob_${idx}`]}`}
+              style={{
+                zIndex: hoveredCard === idx ? 80 : 10 + idx * 10,
+              }}
+            >
+              {/* Card Top: Massive Anton Number (Lenis Style) */}
+              <div className={styles.cardBigNumber}>{card.step}</div>
 
-        {/* 3 Mode Cards */}
-        <div ref={cardsRef} className={styles.modesGrid}>
-          {deploymentModes.map((mode, idx) => {
-            const Icon = mode.icon;
-            return (
-              <div
-                key={mode.id}
-                className={`${styles.modeCard} ${idx === 0 ? styles.modeCardActive : ''}`}
-              >
-                <div className={styles.modeTop}>
-                  <div className={styles.modeHeaderRow}>
-                    <div className={styles.modeIconWrap}>
-                      <Icon size={22} />
+              {/* Card Center: Badge + Narrative + Feature Bullets */}
+              <div className={styles.cardContent}>
+                <span className={styles.cardBadge}>{card.badge}</span>
+                <p className={styles.cardDescription}>{card.description}</p>
+
+                <div className={styles.featureList}>
+                  {card.features.map((feat, fIdx) => (
+                    <div key={fIdx} className={styles.featureRow}>
+                      <Check size={12} className={styles.checkIcon} />
+                      <span>{feat}</span>
                     </div>
-                    <span className={styles.modeBadge}>{mode.badge}</span>
-                  </div>
-
-                  <div className={styles.modeTitleGroup}>
-                    <h3 className={styles.modeTitle}>{mode.title}</h3>
-                    <span className={styles.modeSubtitle}>{mode.subtitle}</span>
-                  </div>
-
-                  <p className={styles.modeDescription}>{mode.description}</p>
-
-                  <ul className={styles.featureBullets}>
-                    {mode.bullets.map((bullet, bIdx) => (
-                      <li key={bIdx} className={styles.bulletItem}>
-                        <CheckCircle2 size={15} className={styles.bulletIcon} />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className={styles.modeFooter}>
-                  <a href="#book-demo" className={styles.ctaPill}>
-                    <span>Explore this setup</span>
-                    <ArrowRight size={14} />
-                  </a>
+                  ))}
                 </div>
               </div>
-            );
-          })}
+
+              {/* Card Bottom: Punchy All-Caps Anton Title (Lenis Style) */}
+              <div className={styles.cardBottomTitle}>
+                {card.titleLines.map((line, lIdx) => (
+                  <span key={lIdx} className={styles.titleLine}>
+                    {line}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* =================================================================== */}
+        {/* RIGHT: MONUMENTAL TYPOGRAPHY & ACTIVE ARCHITECTURE TRACKER          */}
+        {/* =================================================================== */}
+        <div className={styles.headlineStage}>
+          <div className={styles.tagBadge}>
+            <span className={styles.tagDot} />
+            <span>03 EASY WAYS TO USE RECOBIT</span>
+          </div>
+
+          <h2 className={styles.monumentalHeading}>
+            <span className={styles.headingLineDark}>CHOOSE HOW</span>
+            <span className={styles.headingLineDark}>YOU WORK.</span>
+            <span className={styles.headingLineOrange}>ZERO IT FRICTION.</span>
+          </h2>
+
+          <p className={styles.headlineSub}>
+            Use RecoBit in your web browser, connect directly with your office Tally system,
+            or keep everything completely offline on your own PC. Your financial data stays
+            strictly under your control.
+          </p>
         </div>
       </div>
     </section>

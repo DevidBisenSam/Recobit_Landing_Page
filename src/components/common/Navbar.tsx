@@ -6,12 +6,11 @@ import { ArrowRight, Menu, X, Sparkles, ChevronRight } from 'lucide-react';
 import styles from './Navbar.module.css';
 
 const navLinks = [
-  { label: 'The Problem', href: '#act-1-chaos' },
-  { label: 'Auto-Matching', href: '#act-2-mapping' },
-  { label: 'Reconciliation', href: '#act-3-reconciliation' },
-  { label: 'Deployments', href: '#deployment-modes' },
-  { label: 'AI Agent', href: '#act-4-command' },
-  { label: 'Audit Trail', href: '#act-5-trust' },
+  { label: 'Why RecoBit', href: '#product-showcase' },
+  { label: 'Auto-Matching', href: '#auto-matching' },
+  { label: 'Reconciliation', href: '#auto-matching' },
+  { label: 'Setup Options', href: '#deployment-modes' },
+  { label: 'Maker-Checker & Audit', href: '#act-5-trust' },
 ];
 
 export const Navbar: React.FC = () => {
@@ -61,11 +60,11 @@ export const Navbar: React.FC = () => {
 
         {/* CTA Group */}
         <div className={styles.ctaGroup}>
-          <a href="#act-3-reconciliation" className={styles.secondaryBtn}>
-            Live Proof
+          <a href="#auto-matching" className={styles.secondaryBtn}>
+            See How It Works
           </a>
           <a href="#book-demo" className={styles.primaryBtn}>
-            <span>Book Enterprise Demo</span>
+            <span>Book A Free Demo</span>
             <ArrowRight size={15} />
           </a>
           <button

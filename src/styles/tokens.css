@@ -22,12 +22,12 @@
   --slate-100: #F1F5F9;
   --slate-50: #F8FAFC;
 
-  /* Canvas & Backgrounds */
-  --bg-canvas: #FAFAFB;
-  --bg-canvas-subtle: #F3F4F6;
+  /* Canvas & Backgrounds (Darkish White / Platinum Studio) */
+  --bg-canvas: #F4F6F9;
+  --bg-canvas-subtle: #ECEFF4;
   --bg-card: #FFFFFF;
   --bg-card-hover: #FCFDFE;
-  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-glass: rgba(255, 255, 255, 0.9);
   --bg-glass-dark: rgba(15, 23, 42, 0.85);
 
   /* Status Colors */
@@ -67,7 +67,11 @@
   --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.04);
 
   /* Typography Fonts */
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-anton: 'Anton', 'Impact', sans-serif;
+  --font-panchang: 'Syne', 'Panchang', sans-serif;
+  --font-roboto: 'Roboto', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Spacing Scale */

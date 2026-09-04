@@ -1,0 +1,1922 @@
+/* ============================================================================
+   RECOBIT — 5-STREAM BOOK PAGE-FLIP RECONCILIATION ENGINE
+   Flow: Screen 1 (80% Problem Hook) -> Screen 2 (ONLY Book 80% W/H) -> Screen 3 (Outro Benchmark)
+   ============================================================================ */
+
+/* ── OUTER SECTION (Transparent — floats seamlessly on global canvas) ──────── */
+.sceneSection {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  overflow: visible;
+  padding: 0;
+}
+
+/* ============================================================================
+   SCREEN 1: THE 80% PROBLEM HEADLINE SCREEN (Fresh 100vh)
+   Clean, uncluttered, focused on the problem & cool solution line
+   ============================================================================ */
+.introScreen {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem clamp(1.5rem, 5vw, 4rem);
+  box-sizing: border-box;
+  background: transparent;
+  z-index: 2;
+}
+
+.introContent {
+  max-width: 960px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.1rem;
+}
+
+/* Bigger authoritative eyebrow without background color */
+.introEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #FF5500;
+  background: transparent !important;
+  border: none !important;
+  padding: 0;
+  box-shadow: none !important;
+  margin: 0;
+}
+
+.introEyebrowDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FF5500;
+  box-shadow: 0 0 10px rgba(255, 85, 0, 0.9);
+  animation: pulseDot 1.8s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.7; }
+}
+
+/* 80% Problem Punch Block - Proportionate & Stacked */
+.introPunchBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin: 0.1rem 0;
+}
+
+.introBigNum {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(4.5rem, 7.5vw, 6.5rem);
+  line-height: 0.95;
+  color: #0F172A;
+  letter-spacing: -0.02em;
+  text-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+}
+
+.introPunchSub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.92rem, 1.35vw, 1.18rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #334155;
+  margin: 0;
+}
+
+.introPunchAccent {
+  color: #FF5500;
+}
+
+.introSub {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.02rem, 1.3vw, 1.18rem);
+  font-weight: 500;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.introDivider {
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FF5500, transparent);
+  margin: 0.2rem 0;
+}
+
+.introCoolLine {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: clamp(1.2rem, 1.65vw, 1.48rem);
+  font-weight: 700;
+  line-height: 1.65;
+  color: #0F172A;
+  max-width: 860px;
+  margin: 0.4rem auto 0;
+  letter-spacing: -0.015em;
+  text-align: center;
+}
+
+.orangeHighlight {
+  color: #FF5500;
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 0 25px rgba(255, 85, 0, 0.3);
+}
+
+/* ============================================================================
+   SCREEN 2: PINNED 3D WOODEN BOOK STAGE (100vh Pinned)
+   ONLY THE BOOK — NO HEADER, NO FOOTER, 80% WIDTH & 80% HEIGHT
+   ============================================================================ */
+.pinContainer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background: transparent;
+  z-index: 2;
+  padding: 1rem;
+}
+
+.bookStage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* ── 3D BOOK PERSPECTIVE WRAPPER (80% W & 80% H) ─────────────────────────── */
+.bookWrapper {
+  perspective: 2500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: none !important; /* Floating on background without any outer shadow */
+}
+
+/* Dynamic desktop centering for closed vs open book spreads */
+.bookWrapperCoverCenter {
+  transform: translateX(-25%);
+}
+
+.bookWrapperSpreadCenter {
+  transform: translateX(0);
+}
+
+.bookWrapperBackCenter {
+  transform: translateX(25%);
+}
+
+@media (max-width: 1024px) {
+  .bookWrapperCoverCenter,
+  .bookWrapperSpreadCenter,
+  .bookWrapperBackCenter {
+    transform: translateX(0) !important;
+  }
+}
+
+.flipBook {
+  box-shadow: none !important;
+  filter: none !important;
+  background: transparent !important;
+}
+
+.flipBook :global(.stf__outerShadow),
+.flipBook :global(.stf__innerShadow),
+.flipBook :global(.stf__hardShadow),
+.flipBook :global(.stf__hardInnerShadow) {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+.bookPlaceholder {
+  width: clamp(920px, 80vw, 1220px);
+  height: clamp(520px, 75vh, 620px);
+  background: rgba(15, 23, 42, 0.04);
+  border-radius: 8px;
+}
+
+/* ============================================================================
+   PAGE LAYOUT & REALISTIC WOODEN 3D TEXTURES
+   ============================================================================ */
+.page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent; /* Transparent so rounded cover corners don't expose white background */
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* ── 1. FRONT COVER: REAL PHOTOREALISTIC MAHOGANY WOOD & MINIMAL GOLD EMBOSSING ── */
+.pageCover {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  /* Authentic photorealistic high-res dark mahogany wood texture */
+  background-image:
+    linear-gradient(145deg, rgba(20, 10, 5, 0.45) 0%, rgba(30, 15, 8, 0.15) 50%, rgba(15, 8, 3, 0.6) 100%),
+    url('/images/wood_cover_texture.jpg');
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #160B05;
+  border-radius: 4px 14px 14px 4px;
+  box-shadow:
+    inset 0 0 50px rgba(0, 0, 0, 0.75),
+    inset 2px 0 8px rgba(255, 200, 140, 0.2);
+}
+
+/* Left spine strip (rich dark mahogany leather + gold stitch seam) */
+.coverSpine {
+  width: 34px;
+  background: linear-gradient(90deg, #100803 0%, #221208 50%, #120904 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  border-right: 2px solid #4A2A14;
+  box-shadow: inset -2px 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.coverSpineSeam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 4px;
+  width: 1px;
+  border-right: 1px dashed rgba(212, 175, 55, 0.45);
+}
+
+.coverSpineText {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.85);
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.coverBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2.5rem;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+/* Antique gold perimeter hairline frame */
+.coverGoldFrame {
+  position: absolute;
+  inset: 18px;
+  border: 1.5px solid rgba(212, 175, 55, 0.5);
+  outline: 1px solid rgba(212, 175, 55, 0.25);
+  outline-offset: 4px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Antique brass corner brackets */
+.coverCornerTL, .coverCornerTR, .coverCornerBL, .coverCornerBR {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: rgba(212, 175, 55, 0.8);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.coverCornerTL { top: 12px; left: 12px; border-width: 2.5px 0 0 2.5px; }
+.coverCornerTR { top: 12px; right: 12px; border-width: 2.5px 2.5px 0 0; }
+.coverCornerBL { bottom: 12px; left: 12px; border-width: 0 0 2.5px 2.5px; }
+.coverCornerBR { bottom: 12px; right: 12px; border-width: 0 2.5px 2.5px 0; }
+
+/* Minimal authentic gold foil stamping on wood */
+.coverEmblem {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 55, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #D4AF37;
+  margin-bottom: 1.4rem;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.18) 0%, transparent 70%);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25), inset 0 0 10px rgba(212, 175, 55, 0.15);
+}
+
+.coverBrand {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #FFF6D6 0%, #E8C15A 35%, #D4AF37 65%, #9E7D1C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95));
+  margin: 0;
+  line-height: 1;
+}
+
+.coverTitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.78rem, 1.1vw, 0.94rem);
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.9);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  margin-top: 0.6rem;
+}
+
+.coverDividerBar {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  margin: 1.4rem 0 1rem;
+}
+
+.coverAccent {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.2rem, 2.0vw, 1.7rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #FF7728;
+  white-space: nowrap;
+  text-shadow:
+    0 0 25px rgba(255, 119, 40, 0.5),
+    0 2px 6px rgba(0, 0, 0, 0.9);
+  margin: 0;
+}
+
+.coverYear {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.65);
+  margin-top: 1.6rem;
+}
+
+/* ── 2. LEFT AUDIT EVIDENCE REGISTER PAGE (For Cards 01-05) ────────────────── */
+.pageInnerLeft {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  /* Authentic dark mahogany wood hardcover rim visible around pages */
+  background-image:
+    linear-gradient(145deg, rgba(20, 10, 5, 0.45) 0%, rgba(30, 15, 8, 0.2) 50%, rgba(15, 8, 3, 0.55) 100%),
+    url('/images/wood_cover_texture.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 10px 0 10px 12px;
+  display: flex;
+  border-radius: 4px 0 0 4px;
+}
+
+.pageEvidence {
+  flex: 1;
+  height: 100%;
+  background: #FDFBF7;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-right: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 2px 0 0 2px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset -10px 0 15px -8px rgba(0, 0, 0, 0.16),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Left spine ruling & punch holes */
+.evidenceSpine {
+  width: 22px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border-right: 1.5px solid rgba(220, 38, 38, 0.25); /* Ledger red rule */
+  background: rgba(0, 0, 0, 0.015);
+  z-index: 2;
+}
+
+.evidencePunchHole {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E2E8F0;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.evidenceBody {
+  margin-left: 22px;
+  flex: 1;
+  padding: 1.8rem 1.8rem 1.4rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.85rem;
+  overflow: hidden;
+}
+
+.evidenceTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid rgba(15, 23, 42, 0.08);
+  padding-bottom: 0.55rem;
+}
+
+.evidenceFolioTag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.evidenceDocTitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #94A3B8;
+}
+
+.evidenceHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.evidenceTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 800;
+  color: #0F172A;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.evidenceSub {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: #64748B;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Evidence Cards / Items List */
+.evidenceList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.evidenceItem {
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.evidenceItemRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.evidenceItemLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.evidenceItemTag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.evidenceItemDesc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: #64748B;
+  line-height: 1.4;
+}
+
+/* Match Pair Box (For Card 01 1:1 Matching) */
+.matchPairContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.matchPairRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 6px;
+  padding: 0.55rem 0.8rem;
+}
+
+.matchPairLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #64748B;
+}
+
+.matchPairDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.matchPairText {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.matchPairAmount {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #059669;
+}
+
+/* Evidence Audit Checks Row */
+.evidenceChecksRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 0.5rem;
+}
+
+.evidenceCheckCard {
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  border-radius: 5px;
+  padding: 0.45rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.evidenceCheckLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.54rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94A3B8;
+}
+
+.evidenceCheckVal {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.evidenceFooterNote {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #64748B;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  padding-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── 3. RIGHT ACTION FOLIO PAGE (Cards 01-05) ──────────────────────────────── */
+.pageInnerRight {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  /* Authentic dark mahogany wood hardcover rim visible around pages */
+  background-image:
+    linear-gradient(145deg, rgba(20, 10, 5, 0.45) 0%, rgba(30, 15, 8, 0.2) 50%, rgba(15, 8, 3, 0.55) 100%),
+    url('/images/wood_cover_texture.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 10px 12px 10px 0;
+  display: flex;
+  border-radius: 0 4px 4px 0;
+}
+
+.folioSheet {
+  flex: 1;
+  height: 100%;
+  background: #FDFBF7;
+  display: flex;
+  box-sizing: border-box;
+  border-left: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 0 2px 2px 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 10px 0 15px -8px rgba(0, 0, 0, 0.16),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.folioSpine {
+  width: 22px;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border-right: 1.5px solid rgba(220, 38, 38, 0.25);
+  background: rgba(0, 0, 0, 0.015);
+}
+
+.punchHole {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E2E8F0;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.folioBody {
+  flex: 1;
+  padding: 1.8rem 2rem 1.4rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.85rem;
+  overflow: hidden;
+}
+
+.folioTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid rgba(15, 23, 42, 0.08);
+  padding-bottom: 0.55rem;
+  gap: 0.5rem;
+}
+
+.folioRefGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.folioRefTag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+.folioRefNum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+.folioRegisterTitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.35);
+}
+
+.folioFyTag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+.folioCardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.folioBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.folioBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.24rem 0.7rem;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.folioBadgeDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.folioStatusPill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(15, 23, 42, 0.06);
+  color: #475569;
+  padding: 0.22rem 0.6rem;
+  border-radius: 100px;
+}
+
+.folioTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.folioDesc {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.76rem, 1vw, 0.86rem);
+  font-weight: 500;
+  line-height: 1.65;
+  color: #475569;
+  margin: 0;
+}
+
+.folioRulesBox {
+  background: rgba(15, 23, 42, 0.025);
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.folioRulesHeader {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #64748B;
+}
+
+.folioChipsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.folioChip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  font-weight: 700;
+  padding: 0.24rem 0.65rem;
+  border-radius: 4px;
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 23, 42, 0.09);
+  color: #1E293B;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.folioFooter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-top: 1.5px solid rgba(15, 23, 42, 0.08);
+  padding-top: 0.75rem;
+}
+
+.folioFooterLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.folioStatNum {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  line-height: 1;
+}
+
+.folioStatLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #64748B;
+}
+
+.folioFooterRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.auditRubberStamp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 2px dashed;
+  border-radius: 4px;
+  padding: 0.3rem 0.7rem;
+  transform: rotate(-3deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.folioPill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 100px;
+}
+
+.folioNext {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #94A3B8;
+}
+
+/* ── 4. BACK COVER: REAL WOOD CLOSED HARDCOVER (Spread 6) ─────────────────── */
+.pageBackCover {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  /* Matching photorealistic dark mahogany wood texture */
+  background-image:
+    linear-gradient(145deg, rgba(20, 10, 5, 0.45) 0%, rgba(30, 15, 8, 0.15) 50%, rgba(15, 8, 3, 0.6) 100%),
+    url('/images/wood_cover_texture.jpg');
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #160B05;
+  border-radius: 14px 4px 4px 14px;
+  box-shadow:
+    inset 0 0 50px rgba(0, 0, 0, 0.75),
+    inset -2px 0 8px rgba(255, 200, 140, 0.2);
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+}
+
+.backCoverMedallion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  max-width: 400px;
+  position: relative;
+  z-index: 2;
+}
+
+.backCoverWaxSeal {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 55, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: #D4AF37;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.3), inset 0 0 10px rgba(212, 175, 55, 0.18);
+}
+
+.backCoverGoldTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #FFF6D6 0%, #E8C15A 40%, #D4AF37 70%, #9E7D1C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
+  margin: 0;
+  line-height: 1.15;
+}
+
+.backCoverSub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.85);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.backCoverAudit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.backCoverBrand {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #FF5500;
+  text-shadow: 0 0 25px rgba(255, 85, 0, 0.6);
+  margin-top: 0.5rem;
+}
+
+/* ============================================================================
+   SCREEN 3: OUTRO — TRANSFORMATION BENCHMARK
+   "Weeks & Months of Reconciliation Drag, Cut Down to Hours & Minutes"
+   Full 100vh Pinned Experience with High-Visibility Executive Animations
+   ============================================================================ */
+.outroBeat {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: 85vh;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 2.2rem clamp(1.5rem, 4vw, 4rem) 1rem;
+  text-align: center;
+  box-sizing: border-box;
+  background: transparent !important;
+}
+
+.outroEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #FF5500;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+.outroEyebrowDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FF5500;
+  box-shadow: 0 0 8px rgba(255, 85, 0, 0.9);
+  animation: eyebrowPulse 2s ease-in-out infinite;
+}
+
+@keyframes eyebrowPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+    box-shadow: 0 0 6px rgba(255, 85, 0, 0.8);
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+    box-shadow: 0 0 14px rgba(255, 85, 0, 1);
+  }
+}
+
+.outroHeadline {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  color: #0F172A;
+  max-width: 860px;
+  margin: 0;
+  filter: drop-shadow(0 1px 2px rgba(15, 23, 42, 0.06));
+}
+
+.outroHeadlineGreen {
+  display: inline-block;
+  background: linear-gradient(135deg, #059669 0%, #10B981 50%, #047857 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(5, 150, 105, 0.2));
+}
+
+.outroCardsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.8rem;
+  width: 100%;
+  max-width: 920px;
+  margin-top: 0.8rem;
+  position: relative;
+}
+
+/* Card 1: Traditional Manual (Struck through & faded) */
+.benchmarkCardManual {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(239, 68, 68, 0.18);
+  border-radius: 16px;
+  padding: 2.2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  box-shadow:
+    0 12px 35px -8px rgba(239, 68, 68, 0.07),
+    0 2px 6px rgba(0, 0, 0, 0.02);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.benchmarkCardManual:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 40px -8px rgba(239, 68, 68, 0.12),
+    0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.benchmarkTagManual {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #DC2626;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  padding: 0.28rem 0.75rem;
+  border-radius: 100px;
+}
+
+.benchmarkValManualWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0.95;
+  padding: 0.2rem 0.5rem;
+}
+
+.benchmarkValManual {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(2.8rem, 5.2vw, 4.4rem);
+  line-height: 0.95;
+  color: #94A3B8;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+}
+
+/* Authentic Executive Auditor's Red Strike Line with Pulse */
+.manualStrikeLine {
+  position: absolute;
+  left: -8%;
+  top: 52%;
+  width: 116%;
+  height: 6px;
+  background: linear-gradient(90deg, #991B1B 0%, #EF4444 45%, #DC2626 80%, #7F1D1D 100%);
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
+  transform: translateY(-50%) rotate(-3deg);
+  transform-origin: left center;
+  pointer-events: none;
+  animation: strikePulse 2.2s ease-in-out infinite;
+}
+
+@keyframes strikePulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.95);
+    filter: brightness(1.2);
+  }
+}
+
+.benchmarkSubManual {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: #64748B;
+  margin: 0;
+}
+
+/* Versus Connector */
+.benchmarkVersus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  z-index: 3;
+}
+
+.versusArrowWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(255, 85, 0, 0.25);
+  box-shadow:
+    0 4px 16px rgba(255, 85, 0, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.versusArrow {
+  font-size: 1.5rem;
+  color: #FF5500;
+  font-weight: 900;
+  display: inline-block;
+  animation: arrowGlide 1.6s ease-in-out infinite;
+}
+
+@keyframes arrowGlide {
+  0%, 100% {
+    transform: translateX(-4px);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateX(6px);
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(255, 85, 0, 0.8));
+  }
+}
+
+.versusLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #FF5500;
+  background: rgba(255, 85, 0, 0.08);
+  border: 1px solid rgba(255, 85, 0, 0.15);
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+}
+
+/* Card 2: RecoBit 5-Way Engine (Gleaming Emerald Precision) */
+.benchmarkCardRecobit {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px solid rgba(5, 150, 105, 0.45);
+  border-radius: 16px;
+  padding: 2.2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  box-shadow:
+    0 18px 45px -10px rgba(5, 150, 105, 0.2),
+    0 4px 12px rgba(5, 150, 105, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  animation: cardBorderPulse 3.5s ease-in-out infinite;
+}
+
+@keyframes cardBorderPulse {
+  0%, 100% {
+    border-color: rgba(5, 150, 105, 0.4);
+    box-shadow: 0 18px 45px -10px rgba(5, 150, 105, 0.2);
+  }
+  50% {
+    border-color: rgba(16, 185, 129, 0.7);
+    box-shadow: 0 22px 50px -8px rgba(5, 150, 105, 0.32), 0 0 20px rgba(16, 185, 129, 0.15);
+  }
+}
+
+.benchmarkCardRecobit:hover {
+  transform: translateY(-6px);
+  border-color: rgba(5, 150, 105, 0.75);
+  box-shadow:
+    0 26px 55px -10px rgba(5, 150, 105, 0.3),
+    0 6px 16px rgba(5, 150, 105, 0.12);
+}
+
+/* Continuous Light Sheen Sweep Across RecoBit Card */
+.cardSheen {
+  position: absolute;
+  top: -60%;
+  left: -140%;
+  width: 75%;
+  height: 220%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(16, 185, 129, 0.15) 35%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(16, 185, 129, 0.15) 65%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  animation: cardSheenSweep 3.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes cardSheenSweep {
+  0% {
+    left: -140%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  60% {
+    left: 220%;
+    opacity: 0.85;
+  }
+  100% {
+    left: 220%;
+    opacity: 0;
+  }
+}
+
+.benchmarkTagRecobit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #059669;
+  background: rgba(5, 150, 105, 0.1);
+  border: 1px solid rgba(5, 150, 105, 0.25);
+  padding: 0.28rem 0.75rem;
+  border-radius: 100px;
+}
+
+.recobitLivePulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #059669;
+  box-shadow: 0 0 8px #10B981;
+  animation: greenPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes greenPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 1);
+  }
+}
+
+.benchmarkValRecobitWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0.95;
+  padding: 0.2rem 0.5rem;
+}
+
+/* Continuous High-Luster Metallic Emerald Wave across MINUTES */
+.benchmarkValRecobit {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(2.8rem, 5.2vw, 4.4rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  background: linear-gradient(110deg, #059669 0%, #10B981 35%, #6EE7B7 50%, #10B981 65%, #059669 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: minutesShine 2.8s linear infinite;
+  filter: drop-shadow(0 0 16px rgba(16, 185, 129, 0.4));
+}
+
+@keyframes minutesShine {
+  0% {
+    background-position: 250% 0;
+  }
+  100% {
+    background-position: -250% 0;
+  }
+}
+
+.benchmarkSubRecobit {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: #475569;
+  margin: 0;
+}
+
+/* Accounting Fact Pill Badges — accountant trust badges */
+.trustBadgesRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 920px;
+}
+
+.trustBadgeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.58rem 1.15rem;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 100px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #1E293B;
+  box-shadow:
+    0 4px 14px -3px rgba(15, 23, 42, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s ease;
+}
+
+.trustBadgeItem:hover {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(5, 150, 105, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(5, 150, 105, 0.12);
+}
+
+.trustBadgeIcon {
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.trustBadgeDivider {
+  color: #CBD5E1;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .trustBadgeDivider {
+    display: none;
+  }
+}
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .outroCardsRow {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .versusArrowWrap {
+    transform: rotate(90deg);
+  }
+  .versusArrow {
+    animation: arrowNudgeVert 2.2s ease-in-out infinite;
+  }
+  @keyframes arrowNudgeVert {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(4px);
+    }
+  }
+}
+
+/* ============================================================================
+   OPTION 1: TRUST BADGES & 15-MINUTE EXECUTIVE DEMO MODAL
+   ============================================================================ */
+.trustBadgesRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: -0.4rem;
+}
+
+.trustBadgeItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.trustBadgeIcon {
+  font-size: 0.88rem;
+}
+
+.trustBadgeDivider {
+  color: #CBD5E1;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 680px) {
+  .trustBadgeDivider {
+    display: none;
+  }
+  .trustBadgesRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* ── MODAL OVERLAY & CARD ─────────────────────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalCard {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  background: linear-gradient(150deg, #0F172A 0%, #1E293B 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.38);
+  border-radius: 20px;
+  box-shadow:
+    0 25px 60px -12px rgba(0, 0, 0, 0.75),
+    0 0 35px rgba(16, 185, 129, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  padding: 2.2rem 2rem;
+  box-sizing: border-box;
+  color: #F8FAFC;
+  text-align: left;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalCloseBtn {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94A3B8;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modalCloseBtn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  transform: rotate(90deg);
+}
+
+.modalHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.4rem;
+}
+
+.modalBadge {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  padding: 0.22rem 0.65rem;
+  border-radius: 100px;
+}
+
+.modalTitle {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.modalSubtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: #94A3B8;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.formRow {
+  display: flex;
+  gap: 0.85rem;
+}
+
+.formGroupHalf {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.formLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #CBD5E1;
+}
+
+.formInput,
+.formSelect {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(2, 6, 23, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 0.72rem 0.85rem;
+  color: #F8FAFC;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.86rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.formSelect {
+  cursor: pointer;
+}
+
+.formSelect option {
+  background: #0F172A;
+  color: #F8FAFC;
+}
+
+.formInput:focus,
+.formSelect:focus {
+  border-color: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
+}
+
+.phoneInputWrap {
+  display: flex;
+  align-items: center;
+  background: rgba(2, 6, 23, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.phoneInputWrap:focus-within {
+  border-color: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
+}
+
+.countryCode {
+  padding: 0.72rem 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #94A3B8;
+  background: rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+}
+
+.phoneInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.72rem 0.85rem;
+  color: #F8FAFC;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.86rem;
+  outline: none;
+}
+
+.modalSubmitBtn {
+  width: 100%;
+  padding: 0.92rem 1.4rem;
+  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.94rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 25px -4px rgba(16, 185, 129, 0.4);
+  margin-top: 0.3rem;
+}
+
+.modalSubmitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.55);
+}
+
+.modalFooterTrust {
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  color: #64748B;
+  margin-top: 0.1rem;
+}
+
+.whatsappAlternative {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: #94A3B8;
+  margin-top: 0.4rem;
+}
+
+.whatsappLink {
+  color: #25D366;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.whatsappLink:hover {
+  color: #4AE082;
+  text-decoration: underline;
+}
+
+/* ── SUCCESS STATE ────────────────────────────────────────────────────────── */
+.successState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 0.5rem;
+}
+
+.successCheckCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  border: 2px solid #10B981;
+  color: #10B981;
+  font-size: 2rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
+}
+
+.successTitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 0.5rem;
+}
+
+.successMessage {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.86rem;
+  color: #CBD5E1;
+  line-height: 1.55;
+  margin: 0 0 1.4rem;
+  max-width: 400px;
+}
+
+.successDetailsBox {
+  width: 100%;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 0.85rem 1.2rem;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1.5rem;
+}
+
+.successDetailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.detailLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+}
+
+.detailVal {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #10B981;
+}
+
+.successCloseBtn {
+  padding: 0.75rem 2.2rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.successCloseBtn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+}

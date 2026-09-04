@@ -1,274 +1,657 @@
-.heroSection {
+.heroMasterWrapper {
   position: relative;
-  min-height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-top: calc(70px + clamp(1.5rem, 3.5vw, 3rem));
-  padding-bottom: clamp(2rem, 4vw, 3.5rem);
-  overflow: hidden;
-  z-index: 1;
+  width: 100%;
 }
 
-.heroContent {
+/* Invisible blocker: stops user clicks, taps & drag while first animation plays */
+.interactionLockOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999999;
+  cursor: default;
+  pointer-events: all;
+  user-select: none;
+  -webkit-user-select: none;
+  background: transparent;
+  touch-action: none;
+}
+
+
+/* ========================================================================= */
+/* SCREEN 1: 1:1 LENIS MONUMENTAL BRAND STAGE (SCREENSHOT 5)                 */
+/* ========================================================================= */
+.screen1MonumentalStage {
+  min-height: 100vh;
+  height: 100vh;
+  width: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(1.5rem, 3.5vh, 2.8rem) clamp(1.5rem, 4vw, 4rem);
   z-index: 2;
-  text-align: center;
-  max-width: 1040px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+  overflow: hidden;
+  margin-bottom: 22.2222vw;
 }
 
-.badgePill {
-  display: inline-flex;
+/* ========================================================================= */
+/* STICKY FROSTED HEADER (Visible on Screen 2 onwards)                       */
+/* ========================================================================= */
+.fixedNavBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  padding: 0.85rem clamp(1.5rem, 4vw, 3.5rem);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 32px -8px rgba(15, 23, 42, 0.04);
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fixedNavBarVisible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.fixedNavContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 1.15rem;
-  border-radius: var(--radius-full);
-  background: var(--brand-orange-subtle);
-  border: 1px solid var(--border-orange);
-  color: var(--brand-orange);
-  font-size: 0.8125rem;
+  justify-content: space-between;
+}
+
+.fixedNavBrand {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: #FF5500;
+}
+
+.fixedNavLinks {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.2rem, 2.5vw, 2.8rem);
+}
+
+.fixedNavLinks a {
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  box-shadow: 0 4px 16px rgba(255, 85, 0, 0.12);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  color: #475569;
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-.pulseGreen {
-  width: 7px;
-  height: 7px;
-  background: #10B981;
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+.fixedNavLinks a:hover {
+  color: #FF5500;
 }
 
-.headline {
-  font-size: clamp(2.5rem, 5.5vw + 0.5rem, 4.85rem);
+.fixedNavCta {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
   font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.04em;
-  color: var(--slate-950);
-}
-
-.subheadline {
-  font-size: clamp(1.05rem, 1.2vw + 0.5rem, 1.35rem);
-  line-height: 1.6;
-  color: var(--slate-600);
-  max-width: 760px;
-  margin: 0 auto;
-}
-
-.ctaGroup {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 0.5rem;
-}
-
-.primaryCta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.9rem 1.85rem;
-  border-radius: var(--radius-sm);
-  background: var(--brand-orange-gradient);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.55rem 1.25rem;
+  border-radius: var(--radius-full);
+  background: #0B0F17;
   color: #FFFFFF;
-  font-size: 1rem;
-  font-weight: 700;
-  box-shadow: var(--shadow-orange-glow);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.primaryCta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 40px -4px rgba(255, 85, 0, 0.45);
-}
-
-.secondaryCta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.9rem 1.85rem;
-  border-radius: var(--radius-sm);
-  background: #FFFFFF;
-  color: var(--slate-800);
-  font-size: 1rem;
-  font-weight: 600;
-  border: 1px solid var(--border-medium);
-  box-shadow: var(--shadow-sm);
+  border: none;
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
-.secondaryCta:hover {
-  border-color: var(--slate-400);
-  color: var(--slate-950);
-  box-shadow: var(--shadow-md);
+.fixedNavCta:hover {
+  background: #FF5500;
+  transform: translateY(-1px);
 }
 
-/* Floating Interactive Inbound Transaction Hero Card */
-.floatingHeroCard {
+/* Minimalist Editorial Top Bar on Screen 1 */
+.lenisTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  max-width: 880px;
-  margin-top: 2.5rem;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 85, 0, 0.25);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 24px 60px -12px rgba(15, 23, 42, 0.1), 0 0 35px rgba(255, 85, 0, 0.12);
-  overflow: hidden;
-  position: relative;
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  max-width: 1400px;
+  z-index: 5;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #0B0F17;
 }
 
-.floatingHeroCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 28px 70px -10px rgba(15, 23, 42, 0.14), 0 0 45px rgba(255, 85, 0, 0.18);
-}
-
-.cardHeader {
+.topBarLeft,
+.topBarRight {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.85rem 1.5rem;
-  background: #F8FAFC;
-  border-bottom: 1px solid var(--border-light);
+  gap: clamp(1.2rem, 2.5vw, 2.8rem);
 }
 
-.cardHeaderLeft {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+.topBarLeft a,
+.topBarRight a {
+  color: #0B0F17;
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
-.terminalDots {
-  display: flex;
-  gap: 5px;
+.topBarLeft a:hover,
+.topBarRight a:hover {
+  color: #FF5500;
 }
 
-.dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-}
-
-.cardHeaderTitle {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--slate-800);
-}
-
-.cardHeaderBadge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--brand-orange);
-  background: var(--brand-orange-light);
-  padding: 0.2rem 0.65rem;
+.topBarCta {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.55rem 1.25rem;
   border-radius: var(--radius-full);
-}
-
-.incomingTxnDisplay {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  text-align: left;
-}
-
-.txnMetaRow {
-  display: flex;
+  background: #0B0F17;
+  color: #FFFFFF !important;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--slate-500);
-  font-weight: 600;
+  justify-content: center;
+  line-height: 1;
 }
 
-.txnBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  background: #0F172A;
-  color: #FFFFFF;
-  border-radius: var(--radius-md);
-  font-family: var(--font-mono);
-  box-shadow: var(--shadow-md);
-  gap: 1rem;
-  flex-wrap: wrap;
+.topBarCta:hover {
+  background: #FF5500 !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px);
 }
 
-.txnNarrationText {
-  font-size: 0.9375rem;
-  color: #F8FAFC;
-  font-weight: 600;
-}
-
-.txnAmountText {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #FF7A33;
-}
-
-.cardFooterStats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 1rem 1.5rem;
-  background: #FAFAFB;
-  border-top: 1px solid var(--border-light);
-  gap: 1rem;
-}
-
-.statCell {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
-}
-
-.statCellVal {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--slate-950);
-}
-
-.statCellLbl {
-  font-size: 0.75rem;
-  color: var(--slate-500);
-  font-weight: 600;
-}
-
-.scrollDownHint {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  margin-top: 2.5rem;
-  color: var(--slate-500);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  animation: bounceHint 2s infinite;
+.topBarLinkMuted {
+  color: #64748B !important;
   cursor: pointer;
 }
 
-@keyframes bounceHint {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(6px); }
-  60% { transform: translateY(3px); }
+.topBarLinkMuted:hover {
+  color: #FF5500 !important;
 }
 
-@media (max-width: 680px) {
-  .cardFooterStats {
+.centerLockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(92vw, 1250px);
+  margin: auto 0;
+}
+
+.monumentalWordmark {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroWordmarkSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 15px 40px rgba(255, 85, 0, 0.25));
+}
+
+/* Elegant Subtitle & Brand Tagline Block */
+.monumentalSubTextWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  align-self: flex-end;
+  margin-top: clamp(0.75rem, 1.8vw, 1.5rem);
+  text-align: right;
+  max-width: 680px;
+  padding-right: 0.25rem;
+}
+
+.monumentalSubHeading {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.8vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #0B0F17;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.monumentalTagline {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.15vw, 1.05rem);
+  font-weight: 500;
+  line-height: 1.5;
+  color: #475569;
+  margin-top: 0.45rem;
+  letter-spacing: -0.01em;
+}
+
+/* Bottom Navigation Bar */
+.lenisBottomBar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+/* Stacked Brutalist Scroll to Unravel (1:1 Lenis Style) */
+.stackedScrollPrompt {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #0B0F17;
+  text-decoration: none;
+  line-height: 1.15;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.stackedScrollPrompt:hover {
+  color: #FF5500;
+  transform: translateY(2px);
+}
+
+.stackedScrollTop {
+  display: block;
+}
+
+.stackedScrollBottom {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.bounceDown {
+  animation: bounceSlow 2s infinite ease-in-out;
+}
+
+@keyframes bounceSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.brandMicroTag {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.microTagTitle {
+  color: #334155;
+}
+
+.microTagSub {
+  color: #64748B;
+}
+
+/* Electric Solar Capsule Pill (Bottom Right - As Before) */
+.startStoryPill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1.8rem;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #FF5500 0%, #FF3E00 50%, #E63500 100%);
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(255, 85, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Diagonal Light-Beam Shimmer across the pill */
+.startStoryPill::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: pillLightSweep 4s infinite ease-in-out;
+}
+
+@keyframes pillLightSweep {
+  0% {
+    left: -100%;
+  }
+  30%, 100% {
+    left: 200%;
+  }
+}
+
+.startStoryPill:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 16px 45px rgba(255, 85, 0, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: linear-gradient(135deg, #FF6611 0%, #FF4500 50%, #EB3B00 100%);
+}
+
+.pillLabel {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pulseDot {
+  position: relative;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 12px #FFFFFF;
+  animation: radarPulse 1.6s infinite ease-in-out;
+}
+
+@keyframes radarPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 8px #FFFFFF, 0 0 0 0 rgba(255, 255, 255, 0.7);
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.85;
+    box-shadow: 0 0 14px #FFFFFF, 0 0 0 6px rgba(255, 255, 255, 0);
+  }
+}
+
+.pillArrow {
+  position: relative;
+  z-index: 1;
+  transition: transform var(--transition-fast);
+}
+
+.startStoryPill:hover .pillArrow {
+  transform: translateY(4px);
+}
+
+/* ==========================================================================
+   SCREEN 2 & 3: 1:1 LENIS.DEV EDITORIAL ARCHITECTURE
+   
+   Direct 1:1 replication of lenis.dev stylesheet:
+   - 12-column grid container (--columns: 12, column-gap: 1.6667vw, safe: 2.7778vw)
+   - Left sticky question: cols 3 to 6 (grid-column: 3 / span 4)
+   - Right answers: cols 7 to 10 (grid-column: 7 / -1, max-width 4 cols)
+   - Left 2 columns and right 2 columns are balanced empty margins!
+   - Result: Perfectly centered presentation exactly like lenis.dev!
+   - Spacing: Hero margin-bottom: 22.2222vw, Section margin-bottom: 30vw
+   ========================================================================== */
+
+/* ==========================================================================
+   SCREEN 2 & 3: CENTERED 2-COLUMN EDITORIAL ARCHITECTURE
+   ========================================================================== */
+
+/* ==========================================================================
+   SCREEN 2 & 3: CENTERED 2-COLUMN EDITORIAL ARCHITECTURE (LENIS SPACING)
+   ========================================================================== */
+
+.screen2LenisSection {
+  position: relative;
+  width: 100%;
+  padding-top: 0;
+  margin-bottom: 28vw;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+/* CENTERED 2-COLUMN GRID CONTAINER — Tight, cohesive, luxury spacing */
+.lenisGridContainer {
+  width: 100%;
+  max-width: 980px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: max-content minmax(320px, 520px);
+  column-gap: clamp(2.2rem, 4vw, 3.8rem);
+  justify-content: center;
+  align-items: start;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 clamp(1.2rem, 2.5vw, 2rem);
+}
+
+/* Inter-section spacing for Screen 3 */
+.screen3InterSection {
+  margin-bottom: 28vw;
+}
+
+/* ==========================================================================
+   LEFT COLUMN — STICKY QUESTION (Pins gracefully as answers scroll past)
+   ========================================================================== */
+.lenisStickyQuestionCol {
+  grid-column: 1;
+  position: sticky;
+  top: 33vh;
+  align-self: start;
+  height: fit-content;
+  z-index: 5;
+  box-sizing: border-box;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Clean vertical accent bar and padding */
+.lenisStickyInner {
+  border-left: 4px solid #FF5500;
+  padding: 0 0 0 clamp(1.2rem, 1.8vw, 1.8rem);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.lenisVerticalBar {
+  display: none;
+}
+
+/* Bold Anton typography proportioned to match answer height */
+.lenisStickyQuestion {
+  font-family: 'Anton', var(--font-anton), 'Impact', sans-serif;
+  font-size: clamp(2.5rem, 3.6vw, 3.8rem);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 90%;
+  letter-spacing: 0;
+  color: #0B0F17;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+.questionLine {
+  display: block;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   RIGHT COLUMN — SCROLLING ANSWERS (Exact 1:1 Lenis Editorial Flow)
+   ========================================================================== */
+.lenisScrollingAnswersCol {
+  grid-column: 2;
+  margin-top: 17.7778vw;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each answer block: high-readability editorial layout */
+.lenisAnswerBlock {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Exact Lenis gap between individual answer features: 27.7778vw */
+.lenisAnswerBlock:not(:first-child) {
+  margin-top: 27.7778vw;
+}
+
+.lenisAnswerBlock:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Answer headline: bold, modern display */
+.lenisAnswerHeadline {
+  font-family: 'Syne', var(--font-panchang), sans-serif;
+  font-size: clamp(1.15rem, 1.5vw, 1.45rem);
+  font-weight: 700;
+  font-style: normal;
+  line-height: 115%;
+  letter-spacing: 0.01em;
+  color: #FF5500;
+  text-transform: uppercase;
+  margin: 0 0 1.1rem 0;
+}
+
+/* Answer body: crisp, comfortable typography */
+.lenisAnswerBody {
+  font-family: 'Roboto', var(--font-roboto), 'Inter', sans-serif;
+  font-size: clamp(0.95rem, 1.05vw, 1.08rem);
+  font-weight: 500;
+  font-style: normal;
+  line-height: 155%;
+  letter-spacing: 0;
+  color: #475569;
+  margin: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE — tablet & mobile
+   ========================================================================== */
+@media (max-width: 900px) {
+  .lenisGridContainer {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 2.5rem;
+  }
+
+  .lenisStickyQuestionCol {
+    grid-column: 1;
+    position: relative;
+    top: 0;
+    width: 100%;
+  }
+
+  .lenisScrollingAnswersCol {
+    grid-column: 1;
+    margin-top: 0;
+  }
+
+  .lenisAnswerBlock {
+    max-width: 100%;
+  }
+
+  .lenisAnswerBlock:not(:first-child) {
+    margin-top: 4rem;
+  }
+
+  .lenisStickyQuestion {
+    font-size: clamp(2.6rem, 8vw, 3.8rem);
+  }
+}
+
+@media (max-width: 799.98px) {
+  .screen2LenisSection {
+    margin-bottom: 35vw;
+  }
+
+  .screen3InterSection {
+    margin-bottom: 35vw;
+  }
+
+  .lenisGridContainer {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 2rem);
+    margin-inline: auto;
+    gap: 2rem;
+  }
+
+  .lenisStickyQuestionCol {
+    position: relative;
+    top: 0;
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+
+  .lenisStickyInner {
+    border-left: 3px solid #FF5500;
+    padding: 0.6rem 1rem;
+  }
+
+  .lenisStickyQuestion {
+    font-size: clamp(2.5rem, 12vw, 3.8rem);
+    line-height: 90%;
+  }
+
+  .lenisScrollingAnswersCol {
+    grid-column: 1 / -1;
+    margin-top: 1rem;
+    max-width: 100%;
+  }
+
+  .lenisAnswerBlock {
+    max-width: 100%;
+    min-height: auto;
+  }
+
+  .lenisAnswerBlock:not(:first-child) {
+    margin-top: 25vw;
+  }
+
+  .lenisAnswerHeadline {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .lenisAnswerBody {
+    font-size: 1rem;
   }
 }

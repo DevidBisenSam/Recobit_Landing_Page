@@ -1,186 +1,278 @@
-.sceneWrapper {
+/* ==========================================================================
+   LENIS.DEV FLOATING CARDS CASCADE & PINNED MONUMENTAL HEADLINE
+   ========================================================================== */
+.pinSection {
   position: relative;
   width: 100%;
-  padding: clamp(2.5rem, 5vw, 4rem) 0;
-  z-index: 1;
-}
-
-.sceneHeader {
-  text-align: center;
-  max-width: 880px;
-  margin: 0 auto clamp(2rem, 4vw, 3rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.85rem;
-}
-
-.actTag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--brand-orange);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.title {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.035em;
-  color: var(--slate-950);
-}
-
-.body {
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: var(--slate-600);
-}
-
-.modesGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(1.25rem, 2.5vw, 2rem);
-}
-
-.modeCard {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border-light);
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1.5rem;
-  box-shadow: var(--shadow-md);
-  position: relative;
+  height: 100vh;
   overflow: hidden;
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
-}
-
-.modeCard:hover {
-  transform: translateY(-4px);
-  border-color: var(--brand-orange);
-  box-shadow: 0 20px 45px -10px rgba(255, 85, 0, 0.15), var(--shadow-lg);
-}
-
-.modeCardActive {
-  border-color: rgba(255, 85, 0, 0.4);
-  box-shadow: 0 0 35px rgba(255, 85, 0, 0.12), var(--shadow-md);
-}
-
-.modeTop {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.modeHeaderRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.modeIconWrap {
-  width: 46px;
-  height: 46px;
-  border-radius: var(--radius-md);
-  background: var(--brand-orange-light);
-  color: var(--brand-orange);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(255, 85, 0, 0.15);
+  background: transparent;
+  box-sizing: border-box;
 }
 
-.modeBadge {
-  font-size: 0.72rem;
+.stageContainer {
+  width: 100%;
+  max-width: 1280px;
+  padding: 0 clamp(1.5rem, 4vw, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(2rem, 5vw, 5rem);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+}
+
+/* ==========================================================================
+   LEFT: FLOATING CARDS DECK (01 / 02 / 03 CASCADE)
+   ========================================================================== */
+.cardDeck {
+  position: relative;
+  width: clamp(340px, 42vw, 540px);
+  height: clamp(470px, 58vh, 530px);
+  flex-shrink: 0;
+}
+
+.floatCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: clamp(260px, 22vw, 320px);
+  height: 100%;
+  background: #FFFFFF;
+  border: 1.5px solid #0F172A;
+  border-radius: 6px;
+  padding: clamp(1.4rem, 2vw, 1.8rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 16px 45px -10px rgba(15, 23, 42, 0.14), 0 2px 8px rgba(15, 23, 42, 0.04);
+  cursor: pointer;
+  will-change: transform, opacity;
+  transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Hover elevation: pop card forward smoothly */
+.cardIsHovered {
+  transform: translateY(-20px) scale(1.03) !important;
+  box-shadow: 0 32px 64px -12px rgba(255, 85, 0, 0.28), 0 0 0 2px #FF5500 !important;
+  border-color: #FF5500 !important;
+}
+
+/* Massive Number at the Top (Lenis Style) */
+.cardBigNumber {
+  font-family: 'Anton', var(--font-anton), 'Impact', sans-serif;
+  font-size: clamp(4.5rem, 6.8vw, 6.8rem);
+  font-weight: 400;
+  line-height: 80%;
+  color: #FF5500;
+  letter-spacing: -0.02em;
+  user-select: none;
+  margin-top: -0.25rem;
+}
+
+/* Center Content */
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin: 0.4rem 0;
+}
+
+.cardBadge {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.625rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--brand-orange);
-  background: var(--brand-orange-subtle);
-  border: 1px solid var(--border-orange);
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-full);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  width: fit-content;
 }
 
-.modeTitleGroup {
+.theme_orange .cardBadge {
+  color: #EA580C;
+  background: #FFF7ED;
+  border: 1px solid rgba(234, 88, 12, 0.25);
+}
+
+.theme_emerald .cardBadge {
+  color: #16A34A;
+  background: #F0FDF4;
+  border: 1px solid rgba(22, 163, 74, 0.25);
+}
+
+.theme_blue .cardBadge {
+  color: #2563EB;
+  background: #EFF6FF;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+
+.cardDescription {
+  font-size: clamp(0.78rem, 0.9vw, 0.865rem);
+  line-height: 1.5;
+  color: #475569;
+  margin: 0;
+}
+
+.featureList {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.35rem;
+  margin-top: 0.3rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid #F1F5F9;
 }
 
-.modeTitle {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--slate-950);
-  line-height: 1.25;
-}
-
-.modeSubtitle {
-  font-size: 0.8125rem;
+.featureRow {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.74rem;
   font-weight: 700;
-  color: var(--slate-500);
+  color: #1E293B;
+  line-height: 1.35;
 }
 
-.modeDescription {
-  font-size: 0.9rem;
-  line-height: 1.55;
-  color: var(--slate-600);
-}
-
-.featureBullets {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  margin-top: 0.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-light);
-}
-
-.bulletItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
-  color: var(--slate-700);
-  line-height: 1.4;
-}
-
-.bulletIcon {
+.checkIcon {
   color: #10B981;
   flex-shrink: 0;
-  margin-top: 2px;
 }
 
-.modeFooter {
-  padding-top: 1rem;
+/* Bottom Bold All-Caps Title (Lenis Style) */
+.cardBottomTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
 }
 
-.ctaPill {
+.titleLine {
+  font-family: 'Anton', var(--font-anton), 'Impact', sans-serif;
+  font-size: clamp(1.45rem, 2.1vw, 2.15rem);
+  font-weight: 400;
+  line-height: 92%;
+  letter-spacing: -0.015em;
+  color: #0B0F17;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   RIGHT: MONUMENTAL TYPOGRAPHY & ACTIVE STEP TRACKER
+   ========================================================================== */
+.headlineStage {
+  flex: 1;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  user-select: none;
+}
+
+.tagBadge {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--brand-orange);
-  cursor: pointer;
-  transition: gap var(--transition-fast);
+  gap: 0.45rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #FF5500;
+  text-transform: uppercase;
 }
 
-.ctaPill:hover {
-  gap: 0.65rem;
+.tagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FF5500;
 }
 
-@media (max-width: 960px) {
-  .modesGrid {
-    grid-template-columns: 1fr;
+.monumentalHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0;
+}
+
+.headingLineDark {
+  font-family: 'Anton', var(--font-anton), 'Impact', sans-serif;
+  font-size: clamp(2.4rem, 4vw, 4.2rem);
+  font-weight: 400;
+  line-height: 92%;
+  letter-spacing: -0.015em;
+  color: #0B0F17;
+  text-transform: uppercase;
+  margin: 0;
+  display: block;
+}
+
+.headingLineOrange {
+  font-family: 'Anton', var(--font-anton), 'Impact', sans-serif;
+  font-size: clamp(2.4rem, 4vw, 4.2rem);
+  font-weight: 400;
+  line-height: 92%;
+  letter-spacing: -0.015em;
+  color: #FF5500;
+  text-transform: uppercase;
+  margin: 0;
+  display: block;
+}
+
+.headlineSub {
+  font-size: clamp(0.925rem, 1.05vw, 1.05rem);
+  line-height: 1.6;
+  color: #64748B;
+  margin: 0.2rem 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (TABLETS & MOBILE)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .stageContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 5rem 1.5rem 3rem;
+  }
+  .cardDeck {
+    width: 100%;
+    max-width: 440px;
+    height: 480px;
+  }
+  .headlineStage {
+    max-width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+  .headingLineDark,
+  .headingLineOrange {
+    font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .pinSection {
+    height: auto;
+    min-height: 100vh;
+    padding: 5rem 1rem 3rem;
+  }
+  .cardDeck {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .floatCard {
+    position: static;
+    width: 100%;
+    height: auto;
+    min-height: 420px;
   }
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&family=Syne:wght@700;800&display=swap');
 @import './tokens.css';
 
 /* CSS Reset & Box Sizing */
@@ -17,7 +17,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: auto; /* Lenis handles smooth scrolling */
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -27,12 +27,19 @@ body {
   position: relative;
   min-height: 100vh;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   line-height: 1.5;
   background-color: var(--bg-canvas);
   color: var(--slate-900);
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Custom Fluid Arrow Cursor Support on Desktop */
+@media (pointer: fine) {
+  body, a, button, [role="button"], input, select {
+    cursor: none !important;
+  }
 }
 
 /* Typography Fluid Clamps */

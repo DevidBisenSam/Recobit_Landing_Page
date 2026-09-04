@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { SmoothScroll } from '@/components/common/SmoothScroll';
 import { AmbientBackground } from '@/components/common/AmbientBackground';
-import { Navbar } from '@/components/common/Navbar';
-import { Footer } from '@/components/common/Footer';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -64,11 +62,11 @@ export default function RootLayout({
       <body>
         <SmoothScroll>
           <AmbientBackground />
-          <Navbar />
           <main style={{ position: 'relative', zIndex: 1 }}>{children}</main>
-          <Footer />
         </SmoothScroll>
       </body>
     </html>
   );
 }
+
+
