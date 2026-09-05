@@ -559,7 +559,7 @@ export const SieveScene: React.FC = () => {
           start: 'top top',
           end: '+=1200',
           pin: true,
-          scrub: 0.8,
+          scrub: 1.2,
           anticipatePin: 1,
         },
       });
@@ -644,12 +644,14 @@ export const SieveScene: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // 3. MASTER PINNED SCROLLTRIGGERS (SCREEN 2 BOOK + SCREEN 3 OUTRO TRANSFORMATION)
+  // 3. MASTER PINNED SCROLLTRIGGERS (SCREEN 2 BOOK ON DESKTOP + SCREEN 3 OUTRO TRANSFORMATION)
   useEffect(() => {
     if (!bookReady) return;
 
-    const ctx = gsap.context(() => {
-      // SCREEN 2: 3D Wooden Book Pinning & Page-Flip Scrubbing
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 1025px)', () => {
+      // SCREEN 2: 3D Wooden Book Pinning & Page-Flip Scrubbing ONLY ON DESKTOP (>1024px)
       if (pinContainerRef.current) {
         ScrollTrigger.create({
           id: 'sieve-book-pin',
@@ -657,7 +659,7 @@ export const SieveScene: React.FC = () => {
           start: 'top top',
           end: '+=3500',
           pin: true,
-          scrub: 0.6,
+          scrub: 1.4,
           anticipatePin: 1,
           onEnter: () => {
             triggerAutoOpenIfNeeded();
@@ -670,14 +672,6 @@ export const SieveScene: React.FC = () => {
             }
             const p = self.progress;
 
-            // 7 Spreads:
-            // 0: Cover closed, centered (<0.10)
-            // 1: Card 01 Matched (0.10 - 0.26)
-            // 2: Card 02 Unmatched (0.26 - 0.42)
-            // 3: Card 03 Missing in Books (0.42 - 0.58)
-            // 4: Card 04 Missing in Bank (0.58 - 0.74)
-            // 5: Card 05 Contra & Charges (0.74 - 0.90)
-            // 6: Closed Back Cover, centered (>=0.90)
             let targetSpread = 0;
             if (p < 0.10) targetSpread = 0;
             else if (p < 0.26) targetSpread = 1;
@@ -707,7 +701,9 @@ export const SieveScene: React.FC = () => {
           },
         });
       }
+    });
 
+    const ctx = gsap.context(() => {
       // SCREEN 3: Master Pinned Outro Transformation Benchmark Screen
       if (outroBeatRef.current) {
         const outroTl = gsap.timeline({
@@ -715,58 +711,59 @@ export const SieveScene: React.FC = () => {
             id: 'sieve-outro-pin',
             trigger: outroBeatRef.current,
             start: 'top top',
-            end: '+=80',
+            end: '+=1300',
             pin: true,
+            scrub: 1.2,
             anticipatePin: 1,
-            toggleActions: 'restart none none reverse',
           },
         });
 
         outroTl
           .fromTo(
             outroEyebrowRef.current,
-            { opacity: 0, y: -25, scale: 0.9 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power2.out' }
+            { opacity: 0, y: -25, scale: 0.92 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.16, ease: 'power2.out' },
+            0
           )
           .fromTo(
             outroHeadlineRef.current,
-            { opacity: 0, y: 35, scale: 0.92 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.4)' },
-            0.08
+            { opacity: 0, y: 30, scale: 0.94 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.22, ease: 'power3.out' },
+            0.05
           )
           .fromTo(
             manualCardRef.current,
-            { x: -90, opacity: 0, scale: 0.88 },
-            { x: 0, opacity: 1, scale: 1, duration: 0.55, ease: 'power3.out' },
-            0.22
+            { x: -70, opacity: 0, scale: 0.9 },
+            { x: 0, opacity: 1, scale: 1, duration: 0.26, ease: 'power3.out' },
+            0.12
           )
           .fromTo(
             strikeLineRef.current,
             { scaleX: 0 },
-            { scaleX: 1, duration: 0.5, ease: 'power3.inOut' },
-            0.65
+            { scaleX: 1, duration: 0.20, ease: 'power2.inOut' },
+            0.24
           )
           .fromTo(
             versusRef.current,
             { scale: 0, rotate: -25, opacity: 0 },
-            { scale: 1, rotate: 0, opacity: 1, duration: 0.45, ease: 'back.out(2.5)' },
-            0.8
+            { scale: 1, rotate: 0, opacity: 1, duration: 0.22, ease: 'back.out(2)' },
+            0.28
           )
           .fromTo(
             recobitCardRef.current,
-            { x: 90, opacity: 0, scale: 0.88 },
-            { x: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'power3.out' },
-            0.9
+            { x: 70, opacity: 0, scale: 0.9 },
+            { x: 0, opacity: 1, scale: 1, duration: 0.26, ease: 'power3.out' },
+            0.32
           )
           .fromTo(
             trustBadgesRef.current,
-            { y: 35, opacity: 0, scale: 0.92 },
-            { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.8)' },
-            1.25
-          );
+            { y: 25, opacity: 0, scale: 0.95 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.22, ease: 'back.out(1.5)' },
+            0.42
+          )
+          .to({}, { duration: 0.45 }, 0.55);
       }
 
-      // Synchronize ScrollTrigger and Lenis scroll calculations
       ScrollTrigger.refresh();
       const win = window as unknown as { lenis?: { resize: () => void } };
       win.lenis?.resize?.();
@@ -774,6 +771,7 @@ export const SieveScene: React.FC = () => {
 
     return () => {
       if (autoOpenTimerRef.current) clearTimeout(autoOpenTimerRef.current);
+      mm.revert();
       ctx.revert();
     };
   }, [bookReady, triggerAutoOpenIfNeeded]);
@@ -837,8 +835,8 @@ export const SieveScene: React.FC = () => {
       </div>
 
       {/* =================================================================== */}
-      {/* SCREEN 2: PINNED 3D WOODEN BOOK STAGE (80% W & 80% H)              */}
-      {/* NO HEADER, NO FOOTER — ONLY THE REALISTIC BOOK AT CENTER            */}
+      {/* SCREEN 2 (DESKTOP): PINNED 3D WOODEN BOOK STAGE (80% W & 80% H)     */}
+      {/* 100% UNTOUCHED DESKTOP FLIPBOOK — NO HEADER, NO FOOTER              */}
       {/* =================================================================== */}
       <div ref={pinContainerRef} className={styles.pinContainer}>
         <div className={styles.bookStage}>
@@ -904,6 +902,139 @@ export const SieveScene: React.FC = () => {
               {/* SPREAD 6: BACK COVER (Single page on left, book closed) */}
               <BackCoverPage />
             </HTMLFlipBook>
+          </div>
+        </div>
+      </div>
+
+      {/* =================================================================== */}
+      {/* SCREEN 2 (MOBILE & TABLET): FULL-WIDTH CRISP 5-STREAM LEDGER CARDS  */}
+      {/* Content strictly matches the right page of the book for all 5 cards */}
+      {/* =================================================================== */}
+      <div className={styles.mobileCardsSection}>
+        <div className={styles.mobileCardsContainer}>
+          <div className={styles.mobileSectionHeader}>
+            <span className={styles.mobileEyebrow}>
+              <span className={styles.mobileEyebrowDot} />
+              5-WAY AUTOMATED ENGINE
+            </span>
+            <h3 className={styles.mobileMainHeading}>
+              <span className={styles.mobileHeadingLine1}>Clear Every Transaction</span>
+              <span className={styles.mobileHeadingLine2}>Into 5 Accounting Buckets</span>
+            </h3>
+            <p className={styles.mobileSubHeading}>
+              Designed for senior accountants and finance teams — instant clarity without manual tick-marking.
+            </p>
+          </div>
+
+          <div className={styles.mobileCardsList}>
+            {CARDS.map((card) => (
+              <div
+                key={card.id}
+                className={styles.mobileCard}
+                style={{ borderLeftColor: card.accentColor }}
+              >
+                {/* 1. Folio Top Bar */}
+                <div className={styles.mobileCardTopBar}>
+                  <div className={styles.mobileCardRefGroup}>
+                    <span className={styles.mobileCardRefLabel}>PAGE</span>
+                    <span
+                      className={styles.mobileCardRefNum}
+                      style={{ color: card.accentColor }}
+                    >
+                      0{card.folioNo} OF 05
+                    </span>
+                  </div>
+                  <span className={styles.mobileCardRegisterTag}>
+                    BANK RECONCILIATION
+                  </span>
+                  <span
+                    className={styles.mobileCardFyTag}
+                    style={{ color: card.accentColor }}
+                  >
+                    {card.title.toUpperCase()}
+                  </span>
+                </div>
+
+                {/* 2. Badge & Status Pill Row */}
+                <div className={styles.mobileCardBadgeRow}>
+                  <span
+                    className={styles.mobileCardBadge}
+                    style={{
+                      background: card.accentLight,
+                      color: card.accentColor,
+                    }}
+                  >
+                    <span
+                      className={styles.mobileCardBadgeDot}
+                      style={{ background: card.accentColor }}
+                    />
+                    {card.badge}
+                  </span>
+                  <span className={styles.mobileCardStatusPill}>
+                    {card.status}
+                  </span>
+                </div>
+
+                {/* 3. Title & Description */}
+                <h4
+                  className={styles.mobileCardTitle}
+                  style={{ color: card.accentColor }}
+                >
+                  {card.title}
+                </h4>
+                <p className={styles.mobileCardDesc}>{card.desc}</p>
+
+                {/* 4. Rules & Matching Criteria Box */}
+                <div className={styles.mobileCardRulesBox}>
+                  <span className={styles.mobileCardRulesLabel}>
+                    {card.rulesLabel}
+                  </span>
+                  <div className={styles.mobileCardChipsWrap}>
+                    {card.rules.map((rule, i) => (
+                      <span key={i} className={styles.mobileCardChip}>
+                        {rule}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 5. Footer: Stat Number + Rubber Stamp + Next Indicator */}
+                <div className={styles.mobileCardFooter}>
+                  <div className={styles.mobileCardStatBlock}>
+                    <span
+                      className={styles.mobileCardStatNum}
+                      style={{ color: card.accentColor }}
+                    >
+                      {card.stat}
+                    </span>
+                    <span className={styles.mobileCardStatLabel}>
+                      {card.statLabel}
+                    </span>
+                  </div>
+
+                  <div className={styles.mobileCardStampBlock}>
+                    <div
+                      className={styles.mobileCardStamp}
+                      style={{
+                        color: card.accentColor,
+                        borderColor: card.accentColor,
+                      }}
+                    >
+                      {card.stamp}
+                    </div>
+                    <span
+                      className={styles.mobileCardConfidence}
+                      style={{
+                        background: card.accentLight,
+                        color: card.accentColor,
+                      }}
+                    >
+                      {card.confidence}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

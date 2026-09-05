@@ -57,7 +57,9 @@ export const DeploymentModesScene: React.FC = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+
+    mm.add('(min-width: 1025px)', () => {
       if (!sectionRef.current) return;
 
       const card0 = cardRefs.current[0];
@@ -66,24 +68,21 @@ export const DeploymentModesScene: React.FC = () => {
 
       if (!card0 || !card1 || !card2) return;
 
-      // Master Pinned Scroll Timeline (Exact Lenis Floating Stack scrub)
+      // Master Pinned Scroll Timeline for Desktop (100% Preserved)
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
           end: '+=2400',
           pin: true,
-          scrub: 0.8,
+          scrub: 1.4,
           anticipatePin: 1,
         },
       });
 
       // Initial positions:
-      // Card 0: In place, slight organic tilt
       gsap.set(card0, { x: 0, y: 0, rotation: -1.5, opacity: 1, scale: 1 });
-      // Card 1: Off-screen bottom/right, ready to float in
       gsap.set(card1, { x: 90, y: 280, rotation: 5, opacity: 0, scale: 0.94 });
-      // Card 2: Off-screen bottom/right, ready to float in
       gsap.set(card2, { x: 180, y: 340, rotation: 8, opacity: 0, scale: 0.92 });
 
       // Phase 1: Card 1 floats UP and IN, settling over Card 0 (Scroll 0.2 -> 0.5)
@@ -118,9 +117,16 @@ export const DeploymentModesScene: React.FC = () => {
 
       // Hold final cascade till the end of pin
       tl.to([card0, card1, card2], { duration: 0.15 }, 0.95);
-    }, sectionRef);
+    });
 
-    return () => ctx.revert();
+    mm.add('(max-width: 1024px)', () => {
+      // On Tablet/Mobile: Cards remain visible and in natural stacked order
+      cardRefs.current.forEach((c) => {
+        if (c) gsap.set(c, { clearProps: 'all', opacity: 1 });
+      });
+    });
+
+    return () => mm.revert();
   }, []);
 
   return (

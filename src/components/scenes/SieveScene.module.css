@@ -1039,15 +1039,14 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  min-height: 85vh;
-  max-width: 1120px;
-  margin: 0 auto;
+  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.2rem;
-  padding: 2.2rem clamp(1.5rem, 4vw, 4rem) 1rem;
+  gap: clamp(0.8rem, 1.5vh, 1.2rem);
+  padding: 72px clamp(1.5rem, 4vw, 4rem) clamp(1rem, 2vh, 2rem);
   text-align: center;
   box-sizing: border-box;
   background: transparent !important;
@@ -1056,11 +1055,11 @@
 .outroEyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.7rem;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.74rem;
+  font-size: clamp(1.15rem, 1.8vw, 1.55rem);
   font-weight: 800;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #FF5500;
   background: transparent !important;
@@ -1071,11 +1070,11 @@
 }
 
 .outroEyebrowDot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #FF5500;
-  box-shadow: 0 0 8px rgba(255, 85, 0, 0.9);
+  box-shadow: 0 0 10px rgba(255, 85, 0, 0.95);
   animation: eyebrowPulse 2s ease-in-out infinite;
 }
 
@@ -1094,9 +1093,9 @@
 
 .outroHeadline {
   font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
-  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-size: clamp(1.6rem, 2.7vw, 2.6rem);
   font-weight: 800;
-  line-height: 1.18;
+  line-height: 1.2;
   letter-spacing: -0.025em;
   color: #0F172A;
   max-width: 860px;
@@ -1119,7 +1118,7 @@
   gap: 1.8rem;
   width: 100%;
   max-width: 920px;
-  margin-top: 0.8rem;
+  margin-top: 0.5rem;
   position: relative;
 }
 
@@ -1131,11 +1130,11 @@
   -webkit-backdrop-filter: blur(16px);
   border: 1.5px solid rgba(239, 68, 68, 0.18);
   border-radius: 16px;
-  padding: 2.2rem 1.8rem;
+  padding: 1.6rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.85rem;
   text-align: center;
   box-shadow:
     0 12px 35px -8px rgba(239, 68, 68, 0.07),
@@ -1283,11 +1282,11 @@
   -webkit-backdrop-filter: blur(16px);
   border: 2px solid rgba(5, 150, 105, 0.45);
   border-radius: 16px;
-  padding: 2.2rem 1.8rem;
+  padding: 1.6rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.85rem;
   text-align: center;
   box-shadow:
     0 18px 45px -10px rgba(5, 150, 105, 0.2),
@@ -1441,7 +1440,7 @@
   justify-content: center;
   gap: 0.85rem;
   flex-wrap: wrap;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   width: 100%;
   max-width: 920px;
 }
@@ -1920,3 +1919,439 @@
   background: rgba(255, 255, 255, 0.18);
   border-color: rgba(255, 255, 255, 0.35);
 }
+
+/* ============================================================================
+   MOBILE & TABLET 5-STREAM RECONCILIATION LEDGER CARDS (<=1024px)
+   Hidden on desktop by default; displayed seamlessly on tablet & mobile
+   ============================================================================ */
+.mobileCardsSection {
+  display: none;
+}
+
+.mobileCardsContainer {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mobileSectionHeader {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.mobileEyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #FF5500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.mobileEyebrowDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FF5500;
+  box-shadow: 0 0 8px #FF5500;
+  animation: pulseDot 1.8s infinite;
+}
+
+.mobileMainHeading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.48rem, 5vw, 2.15rem);
+  font-weight: 900;
+  line-height: 1.22;
+  letter-spacing: -0.028em;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  text-align: center;
+}
+
+.mobileHeadingLine1 {
+  display: block;
+  color: #0B0F17;
+  font-weight: 900;
+}
+
+.mobileHeadingLine2 {
+  display: block;
+  background: linear-gradient(135deg, #FF6B1A 0%, #FF5500 50%, #E04B00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 8px rgba(255, 85, 0, 0.22));
+  font-weight: 900;
+}
+
+.mobileSubHeading {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(0.88rem, 1.1vw, 1rem);
+  color: #475569;
+  max-width: 580px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.mobileCardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  width: 100%;
+}
+
+.mobileCard {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(15, 23, 42, 0.12);
+  border-left-width: 6px;
+  border-left-style: solid;
+  border-radius: 12px;
+  padding: 1.5rem 1.35rem;
+  box-shadow:
+    0 14px 35px -10px rgba(15, 23, 42, 0.09),
+    0 2px 6px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.mobileCardTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding-bottom: 0.55rem;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.mobileCardRefGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.mobileCardRefLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+.mobileCardRefNum {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.mobileCardRegisterTag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: rgba(15, 23, 42, 0.38);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.mobileCardFyTag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mobileCardBadgeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.mobileCardBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mobileCardBadgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.mobileCardStatusPill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #64748B;
+  background: rgba(15, 23, 42, 0.05);
+  padding: 0.24rem 0.65rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mobileCardTitle {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(1.45rem, 3.8vw, 1.85rem);
+  font-weight: 400;
+  line-height: 1.12;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.mobileCardDesc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #475569;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.mobileCardRulesBox {
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  border-radius: 8px;
+  padding: 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.mobileCardRulesLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #64748B;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mobileCardChipsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.mobileCardChip {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #1E293B;
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 0.24rem 0.6rem;
+  border-radius: 4px;
+}
+
+.mobileCardFooter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-top: 1px dashed rgba(15, 23, 42, 0.12);
+  padding-top: 0.85rem;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.mobileCardStatBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 140px;
+}
+
+.mobileCardStatNum {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(1.85rem, 4.8vw, 2.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.mobileCardStatLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #64748B;
+  line-height: 1.35;
+}
+
+.mobileCardStampBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.mobileCardStamp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem;
+  font-weight: 900;
+  border: 1.5px dashed;
+  border-radius: 4px;
+  padding: 0.3rem 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.mobileCardConfidence {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.18rem 0.55rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN (TABLETS & MOBILE) — 100% ISOLATED FROM DESKTOP
+   ============================================================================ */
+@media (max-width: 1024px) {
+  /* HIDE THE 3D FLIPBOOK ON TABLET & MOBILE */
+  .pinContainer {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* SHOW THE 5-STREAM MOBILE CARDS ON TABLET & MOBILE */
+  .mobileCardsSection {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 4rem 1.5rem 5rem;
+    box-sizing: border-box;
+    background: transparent;
+  }
+
+  .outroBeat {
+    height: auto;
+    min-height: 100vh;
+    padding: 6rem 1.5rem 4rem;
+  }
+  .outroCardsRow {
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 480px;
+  }
+  .benchmarkVersus {
+    transform: rotate(90deg);
+    margin: -0.2rem 0;
+  }
+  .benchmarkCardManual,
+  .benchmarkCardRecobit {
+    width: 100%;
+  }
+  .trustBadgesRow {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .trustBadgeDivider {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .introScreen {
+    height: auto;
+    min-height: 100vh;
+    padding: 5rem 1.2rem 3rem;
+  }
+  .introContent {
+    gap: 0.85rem;
+  }
+  .introPunchBlock {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.35rem;
+  }
+  .introBigNum {
+    font-size: clamp(3.8rem, 15vw, 5.5rem);
+  }
+  .introPunchSub {
+    font-size: clamp(1.1rem, 4.8vw, 1.45rem);
+    text-align: center;
+  }
+  .introSub {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .introCoolLine {
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+
+  .mobileCardsSection {
+    padding: 3rem 1.2rem 4rem;
+  }
+
+  .mobileCard {
+    padding: 1.3rem 1.1rem;
+    border-radius: 10px;
+  }
+
+  .mobileCardFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .mobileCardStampBlock {
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .outroEyebrow {
+    font-size: 1rem;
+  }
+  .outroHeadline {
+    font-size: clamp(1.35rem, 5.5vw, 1.85rem);
+  }
+  .benchmarkValManual,
+  .benchmarkValRecobit {
+    font-size: clamp(2.4rem, 11vw, 3.4rem);
+  }
+  .trustBadgeItem {
+    font-size: 0.78rem;
+    padding: 0.48rem 0.95rem;
+  }
+}
+

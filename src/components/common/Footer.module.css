@@ -192,10 +192,17 @@
 }
 
 @media (max-width: 580px) {
+  .footer {
+    padding: 0.75rem 1.2rem;
+    margin-bottom: 0 !important;
+  }
   .tagline {
     display: none;
   }
   .contactRow {
     display: none;
+  }
+  .copy {
+    font-size: 0.58rem;
   }
 }

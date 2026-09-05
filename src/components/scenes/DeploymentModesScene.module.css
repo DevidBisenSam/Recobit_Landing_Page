@@ -235,16 +235,30 @@
    RESPONSIVE DESIGN (TABLETS & MOBILE)
    ========================================================================== */
 @media (max-width: 1024px) {
+  .pinSection {
+    height: auto;
+    min-height: 100vh;
+    padding: 6rem 1.5rem 4rem;
+  }
   .stageContainer {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
-    gap: 2.5rem;
-    padding: 5rem 1.5rem 3rem;
+    gap: 3rem;
+    padding: 0;
   }
   .cardDeck {
     width: 100%;
-    max-width: 440px;
-    height: 480px;
+    max-width: 480px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+  .floatCard {
+    position: static;
+    width: 100%;
+    height: auto;
+    min-height: 380px;
   }
   .headlineStage {
     max-width: 100%;
@@ -253,26 +267,33 @@
   }
   .headingLineDark,
   .headingLineOrange {
-    font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+    font-size: clamp(2rem, 5vw, 3rem);
   }
 }
 
 @media (max-width: 768px) {
   .pinSection {
-    height: auto;
-    min-height: 100vh;
-    padding: 5rem 1rem 3rem;
+    padding: 4.5rem 1rem 3rem;
+  }
+  .stageContainer {
+    gap: 2.2rem;
   }
   .cardDeck {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.4rem;
   }
   .floatCard {
-    position: static;
-    width: 100%;
-    height: auto;
-    min-height: 420px;
+    min-height: auto;
+    padding: 1.4rem 1.2rem;
+  }
+  .cardBigNumber {
+    font-size: clamp(3.8rem, 14vw, 5rem);
+  }
+  .headingLineDark,
+  .headingLineOrange {
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
+  }
+  .headlineSub {
+    font-size: 0.92rem;
+    text-align: center;
   }
 }

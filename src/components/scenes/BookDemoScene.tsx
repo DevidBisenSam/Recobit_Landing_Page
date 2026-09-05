@@ -163,12 +163,6 @@ const ManualRegisterModel: React.FC = () => (
         />
       </svg>
     </div>
-
-    {/* Caption below */}
-    <div className={styles.modelCaption}>
-      <span className={styles.captionDot} />
-      <span>MANUAL RECONCILIATION — HOURS WASTED</span>
-    </div>
   </div>
 );
 
@@ -212,11 +206,11 @@ export const BookDemoScene: React.FC = () => {
       <div className={styles.ambientGlowOrange} />
       <div className={styles.ambientGlowGreen} />
 
-      {/* ── SINGLE LINE HEADLINE ── */}
+      {/* ── TWO-LINE HIGH-IMPACT HEADLINE ── */}
       <div className={styles.headlineStrip}>
         <h2 className={styles.mainHeadline}>
-          Stop wasting time in manual reco —{' '}
-          <span className={styles.headlineHighlight}>book a demo and save your time.</span>
+          <span className={styles.headlineLine1}>Stop Spending Days on Manual Reconciliation</span>
+          <span className={styles.headlineHighlight}>Close Your Books in Minutes with 100% Accuracy.</span>
         </h2>
       </div>
 

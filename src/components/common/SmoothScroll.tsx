@@ -27,15 +27,20 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
     }
     window.scrollTo(0, 0);
 
-    // Initialize Lenis with iconic silky-smooth settings
+    // Initialize Lenis with premium silky-smooth settings
+    // lerp gives the "magnetic weight" feel used by lenis.dev itself
+    // duration: 1.2 is the cinematic sweet-spot — heavy but not sluggish
+    // wheelMultiplier: 0.92 adds gentle resistance for deliberate scrolling
     const lenis = new Lenis({
-      duration: 1.35,
+      lerp: 0.08,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.6,
+      wheelMultiplier: 0.92,
+      touchMultiplier: 1.5,
+      syncTouch: true,
     });
 
     lenis.scrollTo(0, { immediate: true });
