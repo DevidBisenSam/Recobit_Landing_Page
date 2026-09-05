@@ -185,8 +185,25 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
     };
     rafId = requestAnimationFrame(animateCursor);
 
+    // Handle orientation changes and window resizes seamlessly
+    let resizeTimer: NodeJS.Timeout | null = null;
+    const handleResizeOrOrientation = () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        ScrollTrigger.clearScrollMemory();
+        ScrollTrigger.refresh(true);
+        lenis.resize();
+      }, 120);
+    };
+
+    window.addEventListener('orientationchange', handleResizeOrOrientation);
+    window.addEventListener('resize', handleResizeOrOrientation);
+
     return () => {
       cancelAnimationFrame(rafId);
+      if (resizeTimer) clearTimeout(resizeTimer);
+      window.removeEventListener('orientationchange', handleResizeOrOrientation);
+      window.removeEventListener('resize', handleResizeOrOrientation);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('wheel', onWheel);
       document.removeEventListener('mouseleave', onMouseLeave);

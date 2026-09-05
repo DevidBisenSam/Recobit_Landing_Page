@@ -57,9 +57,10 @@ export const DeploymentModesScene: React.FC = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   useEffect(() => {
-    const mm = gsap.matchMedia();
+    const mm = gsap.matchMedia(sectionRef);
 
-    mm.add('(min-width: 1025px)', () => {
+    // ── DESKTOP MONITOR / LAPTOP: PINNED 3D CASCADE TIMELINE ──────────────────
+    mm.add('(min-width: 1201px) and (hover: hover) and (pointer: fine)', () => {
       if (!sectionRef.current) return;
 
       const card0 = cardRefs.current[0];
@@ -119,10 +120,47 @@ export const DeploymentModesScene: React.FC = () => {
       tl.to([card0, card1, card2], { duration: 0.15 }, 0.95);
     });
 
-    mm.add('(max-width: 1024px)', () => {
-      // On Tablet/Mobile: Cards remain visible and in natural stacked order
-      cardRefs.current.forEach((c) => {
-        if (c) gsap.set(c, { clearProps: 'all', opacity: 1 });
+    // ── TABLET & MOBILE (PORTRAIT & LANDSCAPE): CLEAN STACK WITH SCROLL REVEAL ──
+    mm.add('(max-width: 1200px), (pointer: coarse), (hover: none)', () => {
+      // On Tablet/Mobile: Monumental headline reveal
+      const headlineEl = sectionRef.current?.querySelector(`.${styles.headlineStage}`);
+      if (headlineEl) {
+        gsap.fromTo(
+          headlineEl,
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headlineEl,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      // Cards appear one by one as the user scrolls
+      cardRefs.current.forEach((cardEl) => {
+        if (!cardEl) return;
+        gsap.fromTo(
+          cardEl,
+          { y: 45, opacity: 0, scale: 0.96 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.75,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: cardEl,
+              start: 'top 88%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
       });
     });
 

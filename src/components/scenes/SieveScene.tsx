@@ -546,80 +546,7 @@ export const SieveScene: React.FC = () => {
   const [bookReady, setBookReady]     = useState(false);
   const [spreadState, setSpreadState] = useState(0);
 
-  // 1. SCREEN 1: PINNED EDITORIAL HOOK WITH ANIMATED SCRUB REVEAL
-  // Locks at top top so user stops and experiences Screen 1 as an animated destination
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (!introBeatRef.current) return;
-
-      const introTl = gsap.timeline({
-        scrollTrigger: {
-          id: 'sieve-intro-pin',
-          trigger: introBeatRef.current,
-          start: 'top top',
-          end: '+=1200',
-          pin: true,
-          scrub: 1.2,
-          anticipatePin: 1,
-        },
-      });
-
-      introTl
-        .fromTo(
-          introEyebrowRef.current,
-          { y: -30, opacity: 0, scale: 0.94 },
-          { y: 0, opacity: 1, scale: 1, duration: 0.2, ease: 'power2.out' },
-          0
-        )
-        .fromTo(
-          introPunchBlockRef.current,
-          { y: 35, opacity: 0, scale: 0.94 },
-          { y: 0, opacity: 1, scale: 1, duration: 0.28, ease: 'power3.out' },
-          0.06
-        )
-        .fromTo(
-          introSubRef.current,
-          { y: 25, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.24, ease: 'power2.out' },
-          0.16
-        )
-        .fromTo(
-          introDividerRef.current,
-          { scaleX: 0, opacity: 0 },
-          { scaleX: 1, opacity: 1, duration: 0.2, ease: 'power2.out' },
-          0.24
-        )
-        .fromTo(
-          introCoolLineRef.current,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.26, ease: 'power2.out' },
-          0.30
-        )
-        // Hold for the user to comfortably absorb the screen
-        .to({}, { duration: 0.35 }, 0.50)
-        // Smooth fade and lift as user scrolls into the book stage
-        .to(
-          [
-            introEyebrowRef.current,
-            introPunchBlockRef.current,
-            introSubRef.current,
-            introDividerRef.current,
-            introCoolLineRef.current,
-          ],
-          {
-            y: -25,
-            opacity: 0.15,
-            duration: 0.2,
-            ease: 'power2.in',
-          },
-          0.82
-        );
-    }, introBeatRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  // 2. AUTO-OPEN FIRST PAGE AFTER 1.8 SECONDS (Only triggers when user arrives at the book)
+  // 1. AUTO-OPEN FIRST PAGE AFTER 1.8 SECONDS (Only triggers when user arrives at the book)
   const triggerAutoOpenIfNeeded = useCallback(() => {
     if (userHasScrolledRef.current || currentSpreadRef.current !== 0) return;
     if (autoOpenTimerRef.current) clearTimeout(autoOpenTimerRef.current);
@@ -644,14 +571,79 @@ export const SieveScene: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // 3. MASTER PINNED SCROLLTRIGGERS (SCREEN 2 BOOK ON DESKTOP + SCREEN 3 OUTRO TRANSFORMATION)
+  // 2. MASTER PINNED SCROLLTRIGGERS (DESKTOP) VS RESPONSIVE SCROLL ANIMATIONS (TABLET & MOBILE)
   useEffect(() => {
     if (!bookReady) return;
 
-    const mm = gsap.matchMedia();
+    const mm = gsap.matchMedia(sectionRef);
 
-    mm.add('(min-width: 1025px)', () => {
-      // SCREEN 2: 3D Wooden Book Pinning & Page-Flip Scrubbing ONLY ON DESKTOP (>1024px)
+    // ── DESKTOP MONITOR / LAPTOP: PINNED SCRUB TIMELINES (100% PRESERVED) ───
+    mm.add('(min-width: 1201px) and (hover: hover) and (pointer: fine)', () => {
+      // SCREEN 1: PINNED EDITORIAL HOOK (80% PROBLEM PUNCH)
+      if (introBeatRef.current) {
+        const introTl = gsap.timeline({
+          scrollTrigger: {
+            id: 'sieve-intro-pin',
+            trigger: introBeatRef.current,
+            start: 'top top',
+            end: '+=1200',
+            pin: true,
+            scrub: 1.2,
+            anticipatePin: 1,
+          },
+        });
+
+        introTl
+          .fromTo(
+            introEyebrowRef.current,
+            { y: -30, opacity: 0, scale: 0.94 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.2, ease: 'power2.out' },
+            0
+          )
+          .fromTo(
+            introPunchBlockRef.current,
+            { y: 35, opacity: 0, scale: 0.94 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.28, ease: 'power3.out' },
+            0.06
+          )
+          .fromTo(
+            introSubRef.current,
+            { y: 25, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.24, ease: 'power2.out' },
+            0.16
+          )
+          .fromTo(
+            introDividerRef.current,
+            { scaleX: 0, opacity: 0 },
+            { scaleX: 1, opacity: 1, duration: 0.2, ease: 'power2.out' },
+            0.24
+          )
+          .fromTo(
+            introCoolLineRef.current,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.26, ease: 'power2.out' },
+            0.30
+          )
+          .to({}, { duration: 0.35 }, 0.50)
+          .to(
+            [
+              introEyebrowRef.current,
+              introPunchBlockRef.current,
+              introSubRef.current,
+              introDividerRef.current,
+              introCoolLineRef.current,
+            ],
+            {
+              y: -25,
+              opacity: 0,
+              duration: 0.2,
+              ease: 'power2.in',
+            },
+            0.82
+          );
+      }
+
+      // SCREEN 2: 3D WOODEN BOOK PINNING & PAGE-FLIP SCRUBBING
       if (pinContainerRef.current) {
         ScrollTrigger.create({
           id: 'sieve-book-pin',
@@ -701,10 +693,8 @@ export const SieveScene: React.FC = () => {
           },
         });
       }
-    });
 
-    const ctx = gsap.context(() => {
-      // SCREEN 3: Master Pinned Outro Transformation Benchmark Screen
+      // SCREEN 3: MASTER PINNED OUTRO TRANSFORMATION BENCHMARK
       if (outroBeatRef.current) {
         const outroTl = gsap.timeline({
           scrollTrigger: {
@@ -745,8 +735,8 @@ export const SieveScene: React.FC = () => {
           )
           .fromTo(
             versusRef.current,
-            { scale: 0, rotate: -25, opacity: 0 },
-            { scale: 1, rotate: 0, opacity: 1, duration: 0.22, ease: 'back.out(2)' },
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.22, ease: 'back.out(2)' },
             0.28
           )
           .fromTo(
@@ -763,16 +753,154 @@ export const SieveScene: React.FC = () => {
           )
           .to({}, { duration: 0.45 }, 0.55);
       }
+    });
 
-      ScrollTrigger.refresh();
-      const win = window as unknown as { lenis?: { resize: () => void } };
-      win.lenis?.resize?.();
-    }, sectionRef);
+    // ── TABLET & MOBILE (PORTRAIT & LANDSCAPE): SMOOTH SCROLL ENTRANCE ANIMATIONS ──
+    mm.add('(max-width: 1200px), (pointer: coarse), (hover: none)', () => {
+      // SCREEN 1 (80% HOOK): Smooth staggered scroll entrance on tablet & mobile
+      if (introBeatRef.current) {
+        const introMobTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: introBeatRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none none',
+          },
+        });
+
+        introMobTl
+          .fromTo(
+            introEyebrowRef.current,
+            { y: -25, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }
+          )
+          .fromTo(
+            introPunchBlockRef.current,
+            { y: 35, opacity: 0, scale: 0.92 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.65, ease: 'power3.out' },
+            '-=0.25'
+          )
+          .fromTo(
+            introSubRef.current,
+            { y: 25, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.55, ease: 'power2.out' },
+            '-=0.3'
+          )
+          .fromTo(
+            introDividerRef.current,
+            { scaleX: 0, opacity: 0 },
+            { scaleX: 1, opacity: 1, duration: 0.45, ease: 'power2.out' },
+            '-=0.25'
+          )
+          .fromTo(
+            introCoolLineRef.current,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.55, ease: 'power2.out' },
+            '-=0.2'
+          );
+      }
+
+      // SCREEN 2 (5-STREAM MOBILE CARDS): Header + Cards appear one-by-one on scroll
+      const headerEl = sectionRef.current?.querySelector(`.${styles.mobileSectionHeader}`);
+      if (headerEl) {
+        gsap.fromTo(
+          headerEl,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.65,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: headerEl,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      const mobileCards = sectionRef.current?.querySelectorAll(`.${styles.mobileCard}`);
+      mobileCards?.forEach((cardEl) => {
+        gsap.fromTo(
+          cardEl,
+          { y: 45, opacity: 0, scale: 0.96 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.75,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: cardEl,
+              start: 'top 88%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      });
+
+      // SCREEN 3 (THE RECOBIT TRANSFORMATION): Executive benchmark animation with red strike line & pulse
+      if (outroBeatRef.current) {
+        const outroMobTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: outroBeatRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none none',
+          },
+        });
+
+        outroMobTl
+          .fromTo(
+            outroEyebrowRef.current,
+            { opacity: 0, y: -20 },
+            { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }
+          )
+          .fromTo(
+            outroHeadlineRef.current,
+            { opacity: 0, y: 25 },
+            { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+            '-=0.25'
+          )
+          .fromTo(
+            manualCardRef.current,
+            { y: 35, opacity: 0, scale: 0.95 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'power3.out' },
+            '-=0.3'
+          )
+          .fromTo(
+            strikeLineRef.current,
+            { scaleX: 0 },
+            { scaleX: 1, duration: 0.5, ease: 'power2.inOut' },
+            '-=0.1'
+          )
+          .fromTo(
+            versusRef.current,
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(2)' },
+            '-=0.2'
+          )
+          .fromTo(
+            recobitCardRef.current,
+            { y: 35, opacity: 0, scale: 0.95 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.65, ease: 'power3.out' },
+            '-=0.25'
+          )
+          .fromTo(
+            trustBadgesRef.current,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.55, ease: 'power2.out' },
+            '-=0.2'
+          );
+      }
+    });
+
+    ScrollTrigger.refresh();
+    const win = window as unknown as { lenis?: { resize: () => void } };
+    win.lenis?.resize?.();
 
     return () => {
       if (autoOpenTimerRef.current) clearTimeout(autoOpenTimerRef.current);
       mm.revert();
-      ctx.revert();
     };
   }, [bookReady, triggerAutoOpenIfNeeded]);
 

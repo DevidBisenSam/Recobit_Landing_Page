@@ -378,22 +378,24 @@ export const HeroFilmScene: React.FC = () => {
                   letter-spacing: -0.04em;
                   text-anchor: middle;
                   user-select: none;
+                  opacity: 0;
+                  will-change: transform, opacity;
                 }
               `}</style>
               {/* Top Row: R (far left) */}
-              <text ref={letterR} x="170" y="160" className="wm-char">R</text>
+              <text ref={letterR} x="170" y="160" className="wm-char" style={{ transform: 'translate(-85px, -95px)', opacity: 0 }}>R</text>
               {/* Bottom Row: E (between R and C) */}
-              <text ref={letterE} x="330" y="160" className="wm-char">E</text>
+              <text ref={letterE} x="330" y="160" className="wm-char" style={{ transform: 'translate(-50px, 95px)', opacity: 0 }}>E</text>
               {/* Top Row: C */}
-              <text ref={letterC} x="490" y="160" className="wm-char">C</text>
+              <text ref={letterC} x="490" y="160" className="wm-char" style={{ transform: 'translate(-25px, -95px)', opacity: 0 }}>C</text>
               {/* Bottom Row: O (center between C and B) */}
-              <text ref={letterO} x="650" y="160" className="wm-char">O</text>
+              <text ref={letterO} x="650" y="160" className="wm-char" style={{ transform: 'translate(0px, 95px)', opacity: 0 }}>O</text>
               {/* Top Row: B */}
-              <text ref={letterB} x="810" y="160" className="wm-char">B</text>
+              <text ref={letterB} x="810" y="160" className="wm-char" style={{ transform: 'translate(25px, -95px)', opacity: 0 }}>B</text>
               {/* Bottom Row: I (between B and T) */}
-              <text ref={letterI} x="960" y="160" className="wm-char">I</text>
+              <text ref={letterI} x="960" y="160" className="wm-char" style={{ transform: 'translate(50px, 95px)', opacity: 0 }}>I</text>
               {/* Top Row: T (far right) */}
-              <text ref={letterT} x="1110" y="160" className="wm-char">T</text>
+              <text ref={letterT} x="1110" y="160" className="wm-char" style={{ transform: 'translate(85px, -95px)', opacity: 0 }}>T</text>
             </svg>
           </div>
 

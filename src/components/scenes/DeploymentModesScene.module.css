@@ -234,7 +234,7 @@
 /* ==========================================================================
    RESPONSIVE DESIGN (TABLETS & MOBILE)
    ========================================================================== */
-@media (max-width: 1024px) {
+@media (max-width: 1200px), (pointer: coarse), (hover: none) {
   .pinSection {
     height: auto;
     min-height: 100vh;

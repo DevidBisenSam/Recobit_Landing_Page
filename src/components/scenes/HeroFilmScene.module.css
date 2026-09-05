@@ -133,6 +133,9 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #0B0F17;
+  opacity: 0;
+  transform: translateY(-25px);
+  will-change: transform, opacity;
 }
 
 .topBarLeft,
@@ -223,6 +226,9 @@
   text-align: right;
   max-width: 680px;
   padding-right: 0.25rem;
+  opacity: 0;
+  transform: translateX(30px);
+  will-change: transform, opacity;
 }
 
 .monumentalSubHeading {
@@ -255,6 +261,9 @@
   gap: 1.5rem;
   flex-wrap: wrap;
   z-index: 2;
+  opacity: 0;
+  transform: translateY(25px);
+  will-change: transform, opacity;
 }
 
 /* Stacked Brutalist Scroll to Unravel (1:1 Lenis Style) */
